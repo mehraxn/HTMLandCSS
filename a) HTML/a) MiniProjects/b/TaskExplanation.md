@@ -76,7 +76,7 @@ You are free to use the sample provided below.
 
 ---
 
-## 7) Reference Markup (Passing Example)
+## 7) Reference Markup 
 
 ```html
 <!DOCTYPE html>
