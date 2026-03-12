@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chef Knife Cucumber Slice Animation</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.08), transparent 34%),
+        linear-gradient(180deg, #2a2d31 0%, #1a1c1f 100%);
+      font-family: Inter, system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    canvas {
+      width: min(1100px, 96vw);
+      height: auto;
+      aspect-ratio: 1100 / 620;
+      border-radius: 22px;
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      background:
+        radial-gradient(circle at 35% 15%, rgba(255,255,255,0.05), transparent 30%),
+        linear-gradient(180deg, #3b3f45 0%, #202328 100%);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="scene" width="1100" height="620" aria-label="Animated scene of a chef's knife slicing a cucumber"></canvas>
+
+  <script>
+    const canvas = document.getElementById('scene');
+    const ctx = canvas.getContext('2d');
+
+    const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    const W = 1100;
+    const H = 620;
+
+    function resize() {
+      const cssWidth = Math.min(window.innerWidth * 0.96, 1100);
+      const cssHeight = cssWidth * (H / W);
+      canvas.style.width = cssWidth + 'px';
+      canvas.style.height = cssHeight + 'px';
+      canvas.width = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    const TAU = Math.PI * 2;
+
+    const board = { x: 95, y: 420, w: 910, h: 122, r: 26 };
+    const cucumber = {
+      left: 315,
+      initialLength: 460,
+      y: 348,
+      r: 55,
+      sliceWidth: 34,
+      maxCuts: 8
+    };
+
+    const state = {
+      loop: -1,
+      globalCycle: -1,
+      sliceMade: false,
+      slices: [],
+      grains: [],
+      speckles: []
+    };
+
+    function clamp(v, min, max) {
+      return Math.max(min, Math.min(max, v));
+    }
+
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function smoothstep(a, b, x) {
+      const t = clamp((x - a) / (b - a), 0, 1);
+      return t * t * (3 - 2 * t);
+    }
+
+    function easeInOutCubic(x) {
+      return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    }
+
+    function gaussian(x, mean, sigma) {
+      const z = (x - mean) / sigma;
+      return Math.exp(-0.5 * z * z);
+    }
+
+    function mulberry32(seed) {
+      return function() {
+        let t = seed += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+
+    const rand = mulberry32(90210);
+
+    for (let i = 0; i < 28; i++) {
+      state.grains.push({
+        x: board.x + rand() * board.w,
+        y: board.y + 10 + rand() * (board.h - 24),
+        len: 120 + rand() * 260,
+        amp: 1 + rand() * 4,
+        alpha: 0.035 + rand() * 0.06
+      });
+    }
+
+    for (let i = 0; i < 80; i++) {
+      state.speckles.push({
+        x: rand(),
+        y: rand(),
+        r: 0.7 + rand() * 2.5,
+        a: 0.05 + rand() * 0.08
+      });
+    }
+
+    function roundRectPath(x, y, w, h, r) {
+      const p = new Path2D();
+      p.moveTo(x + r, y);
+      p.lineTo(x + w - r, y);
+      p.quadraticCurveTo(x + w, y, x + w, y + r);
+      p.lineTo(x + w, y + h - r);
+      p.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      p.lineTo(x + r, y + h);
+      p.quadraticCurveTo(x, y + h, x, y + h - r);
+      p.lineTo(x, y + r);
+      p.quadraticCurveTo(x, y, x + r, y);
+      return p;
+    }
+
+    function drawBackground() {
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, '#3e4349');
+      bg.addColorStop(0.42, '#2a2e33');
+      bg.addColorStop(1, '#1a1d20');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+
+      const glow = ctx.createRadialGradient(W * 0.42, H * 0.15, 0, W * 0.42, H * 0.15, 400);
+      glow.addColorStop(0, 'rgba(255,255,255,0.12)');
+      glow.addColorStop(0.35, 'rgba(255,255,255,0.035)');
+      glow.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.fillStyle = 'rgba(255,255,255,0.03)';
+      for (let i = 0; i < 14; i++) {
+        ctx.beginPath();
+        ctx.arc(120 + i * 78, 40 + (i % 3) * 10, 1.3, 0, TAU);
+        ctx.fill();
+      }
+    }
+
+    function drawBoard(vibration) {
+      const yOffset = vibration * 0.35;
+      const p = roundRectPath(board.x, board.y + yOffset, board.w, board.h, board.r);
+
+      const g = ctx.createLinearGradient(board.x, board.y, board.x, board.y + board.h);
+      g.addColorStop(0, '#b67b44');
+      g.addColorStop(0.06, '#d19656');
+      g.addColorStop(0.55, '#9f693b');
+      g.addColorStop(1, '#7a4d28');
+      ctx.fillStyle = g;
+      ctx.fill(p);
+
+      ctx.save();
+      ctx.clip(p);
+
+      const sheen = ctx.createLinearGradient(board.x, board.y, board.x, board.y + 48);
+      sheen.addColorStop(0, 'rgba(255,255,255,0.20)');
+      sheen.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = sheen;
+      ctx.fillRect(board.x, board.y, board.w, 60);
+
+      for (const grain of state.grains) {
+        ctx.strokeStyle = `rgba(86, 45, 17, ${grain.alpha})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        for (let i = 0; i <= 28; i++) {
+          const t = i / 28;
+          const x = grain.x + t * grain.len;
+          const y = board.y + yOffset + (grain.y - board.y) + Math.sin(t * Math.PI * 2.6 + grain.x * 0.02) * grain.amp;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      for (const s of state.speckles) {
+        ctx.fillStyle = `rgba(255,255,255,${s.a * 0.45})`;
+        ctx.beginPath();
+        ctx.arc(board.x + s.x * board.w, board.y + yOffset + s.y * board.h, s.r, 0, TAU);
+        ctx.fill();
+      }
+
+      ctx.restore();
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 2;
+      ctx.stroke(p);
+
+      ctx.strokeStyle = 'rgba(40,20,8,0.22)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(board.x + 16, board.y + board.h - 2 + yOffset);
+      ctx.lineTo(board.x + board.w - 16, board.y + board.h - 2 + yOffset);
+      ctx.stroke();
+    }
+
+    function drawShadowEllipse(x, y, rx, ry, alpha, blur = 10) {
+      ctx.save();
+      ctx.filter = `blur(${blur}px)`;
+      ctx.fillStyle = `rgba(0,0,0,${alpha})`;
+      ctx.beginPath();
+      ctx.ellipse(x, y, rx, ry, 0, 0, TAU);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawCutFaceLocal(r, moisture = 1) {
+      ctx.save();
+      ctx.scale(1, 0.94);
+
+      const face = ctx.createRadialGradient(-r * 0.22, -r * 0.28, 2, 0, 0, r * 1.08);
+      face.addColorStop(0, '#d2f6a4');
+      face.addColorStop(0.40, '#b8e47c');
+      face.addColorStop(0.78, '#95cb5f');
+      face.addColorStop(1, '#73a443');
+      ctx.fillStyle = face;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, r, r, 0, 0, TAU);
+      ctx.fill();
+
+      ctx.strokeStyle = 'rgba(60,102,36,0.7)';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, r * 0.72, r * 0.72, 0, 0, TAU);
+      ctx.stroke();
+
+      const seeds = 7;
+      for (let i = 0; i < seeds; i++) {
+        const a = (i / seeds) * TAU + 0.15;
+        const sx = Math.cos(a) * r * 0.34;
+        const sy = Math.sin(a) * r * 0.27;
+        ctx.fillStyle = 'rgba(239, 255, 212, 0.55)';
+        ctx.beginPath();
+        ctx.ellipse(sx, sy, r * 0.08, r * 0.04, a, 0, TAU);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = `rgba(255,255,255,${0.12 * moisture})`;
+      ctx.beginPath();
+      ctx.ellipse(-r * 0.22, -r * 0.26, r * 0.30, r * 0.12, -0.45, 0, TAU);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(r * 0.18, -r * 0.08, r * 0.12, r * 0.05, 0.35, 0, TAU);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function drawCucumber(left, length, cutX, compression, phase) {
+      const y = cucumber.y;
+      const r = cucumber.r;
+      const right = left + length;
+
+      drawShadowEllipse(left + length * 0.52, board.y + 13, length * 0.53, 17, 0.22, 12);
+      drawShadowEllipse(left + 20, board.y + 10, 34, 12, 0.12, 8);
+
+      const bodyPath = new Path2D();
+      const samples = 40;
+      for (let i = 0; i <= samples; i++) {
+        const t = i / samples;
+        const x = left + t * length;
+        const w = Math.exp(-Math.pow((x - cutX) / (r * 0.72), 2));
+        const top = y - r + compression * w * 1.15;
+        if (i === 0) bodyPath.moveTo(x, top);
+        else bodyPath.lineTo(x, top);
+      }
+      for (let i = 0; i <= samples; i++) {
+        const t = i / samples;
+        const a = -Math.PI / 2 + t * Math.PI;
+        bodyPath.lineTo(right + Math.cos(a) * r * 0.78, y + Math.sin(a) * r);
+      }
+      for (let i = samples; i >= 0; i--) {
+        const t = i / samples;
+        const x = left + t * length;
+        const w = Math.exp(-Math.pow((x - cutX) / (r * 0.72), 2));
+        const bottom = y + r - compression * w * 0.82;
+        bodyPath.lineTo(x, bottom);
+      }
+      bodyPath.closePath();
+
+      const skin = ctx.createLinearGradient(left, y - r, left, y + r);
+      skin.addColorStop(0, '#3f6f22');
+      skin.addColorStop(0.18, '#5c9634');
+      skin.addColorStop(0.55, '#76b447');
+      skin.addColorStop(0.82, '#5f9736');
+      skin.addColorStop(1, '#3b6620');
+      ctx.fillStyle = skin;
+      ctx.fill(bodyPath);
+
+      ctx.save();
+      ctx.clip(bodyPath);
+
+      for (let i = 0; i < 10; i++) {
+        const yy = y - r + 10 + i * 10.8;
+        ctx.strokeStyle = i % 2 === 0 ? 'rgba(255,255,255,0.08)' : 'rgba(33,70,18,0.11)';
+        ctx.lineWidth = i % 2 === 0 ? 2 : 1.4;
+        ctx.beginPath();
+        ctx.moveTo(left - 20, yy + Math.sin(i * 0.8) * 2);
+        ctx.lineTo(right + 60, yy + Math.sin(i * 0.8 + 1.7) * 2);
+        ctx.stroke();
+      }
+
+      for (let i = 0; i < 38; i++) {
+        const sx = left + rand() * length;
+        const sy = y - r + 5 + rand() * (r * 2 - 10);
+        ctx.fillStyle = 'rgba(255,255,255,0.03)';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 0.8 + rand() * 1.4, 0, TAU);
+        ctx.fill();
+      }
+
+      const bodyHighlight = ctx.createLinearGradient(left, y - r, left, y + r);
+      bodyHighlight.addColorStop(0, 'rgba(255,255,255,0.16)');
+      bodyHighlight.addColorStop(0.22, 'rgba(255,255,255,0.05)');
+      bodyHighlight.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = bodyHighlight;
+      ctx.fillRect(left - 8, y - r - 4, length + 30, r * 0.8);
+
+      ctx.restore();
+
+      ctx.strokeStyle = 'rgba(31,56,17,0.45)';
+      ctx.lineWidth = 2;
+      ctx.stroke(bodyPath);
+
+      ctx.save();
+      ctx.translate(right, y);
+      ctx.scale(0.78, 1);
+      const cap = ctx.createLinearGradient(0, -r, 0, r);
+      cap.addColorStop(0, '#6ca243');
+      cap.addColorStop(1, '#375d1f');
+      ctx.fillStyle = cap;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, r, r, 0, 0, TAU);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(left + 1, y);
+      drawCutFaceLocal(r * 0.98, 1);
+      ctx.restore();
+
+      if (phase > 0.48 && phase < 0.70) {
+        const split = smoothstep(0.50, 0.66, phase) * (1 - smoothstep(0.68, 0.72, phase));
+        ctx.strokeStyle = `rgba(32, 72, 20, ${0.35 * split})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cutX, y - r + 4 + compression * 0.6);
+        ctx.lineTo(cutX, y + r - 5 - compression * 0.35);
+        ctx.stroke();
+
+        ctx.strokeStyle = `rgba(255,255,255,${0.16 * split})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(cutX + 2, y - r + 10);
+        ctx.lineTo(cutX + 2, y + r - 14);
+        ctx.stroke();
+      }
+    }
+
+    function drawSlice(slice, vibration) {
+      const r = cucumber.r * 0.94;
+      const tremor = vibration * 0.12;
+      drawShadowEllipse(slice.x + 4, board.y + 11, r * 0.72, 11, 0.16, 7);
+
+      ctx.save();
+      ctx.translate(slice.x + tremor, slice.y + tremor * 0.5);
+      ctx.rotate(slice.rot);
+
+      ctx.save();
+      ctx.scale(1, 0.92);
+      ctx.fillStyle = 'rgba(54, 96, 32, 0.75)';
+      ctx.beginPath();
+      ctx.ellipse(7, 5, r, r, 0, 0, TAU);
+      ctx.fill();
+      ctx.restore();
+
+      drawCutFaceLocal(r, 0.9);
+
+      ctx.save();
+      ctx.scale(1, 0.92);
+      ctx.strokeStyle = 'rgba(50,84,28,0.6)';
+      ctx.lineWidth = 4.5;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, r, r, 0, 0, TAU);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.restore();
+    }
+
+    function knifeBladePath() {
+      const p = new Path2D();
+      p.moveTo(-34, -108);
+      p.lineTo(70, -94);
+      p.quadraticCurveTo(195, -80, 268, -28);
+      p.lineTo(226, -12);
+      p.quadraticCurveTo(146, -5, 12, 0);
+      p.lineTo(-30, -18);
+      p.closePath();
+      return p;
+    }
+
+    function knifeHandlePath() {
+      const p = new Path2D();
+      p.moveTo(-210, -92);
+      p.quadraticCurveTo(-226, -84, -224, -67);
+      p.lineTo(-210, -34);
+      p.quadraticCurveTo(-202, -10, -176, -9);
+      p.lineTo(-70, -14);
+      p.quadraticCurveTo(-43, -16, -42, -38);
+      p.lineTo(-48, -78);
+      p.quadraticCurveTo(-52, -97, -79, -100);
+      p.lineTo(-178, -102);
+      p.quadraticCurveTo(-198, -102, -210, -92);
+      p.closePath();
+      return p;
+    }
+
+    function drawKnife(x, y, angle, glint, vibration, sceneTime) {
+      const blade = knifeBladePath();
+      const handle = knifeHandlePath();
+      const jitter = vibration * 0.22;
+
+      ctx.save();
+      ctx.translate(x + jitter, y + jitter * 0.6);
+      ctx.rotate(angle + vibration * 0.0015);
+
+      const shadowAlpha = 0.22;
+      ctx.save();
+      ctx.translate(18, 18);
+      ctx.filter = 'blur(9px)';
+      ctx.fillStyle = `rgba(0,0,0,${shadowAlpha})`;
+      ctx.fill(blade);
+      ctx.fill(handle);
+      ctx.restore();
+
+      const bladeFill = ctx.createLinearGradient(-26, -112, 260, -2);
+      bladeFill.addColorStop(0, '#c1c8cf');
+      bladeFill.addColorStop(0.18, '#87939d');
+      bladeFill.addColorStop(0.40, '#f0f4f8');
+      bladeFill.addColorStop(0.58, '#9aa4ac');
+      bladeFill.addColorStop(0.78, '#dbe2e8');
+      bladeFill.addColorStop(1, '#6f7881');
+      ctx.fillStyle = bladeFill;
+      ctx.fill(blade);
+
+      ctx.save();
+      ctx.clip(blade);
+
+      const edgeSheen = ctx.createLinearGradient(0, -5, 0, -112);
+      edgeSheen.addColorStop(0, 'rgba(255,255,255,0.26)');
+      edgeSheen.addColorStop(0.5, 'rgba(255,255,255,0.03)');
+      edgeSheen.addColorStop(1, 'rgba(255,255,255,0.20)');
+      ctx.fillStyle = edgeSheen;
+      ctx.fillRect(-40, -118, 320, 124);
+
+      const reflection = ctx.createLinearGradient(30, -8, 200, -92);
+      reflection.addColorStop(0, 'rgba(92, 146, 62, 0.14)');
+      reflection.addColorStop(0.25, 'rgba(255,255,255,0.0)');
+      reflection.addColorStop(1, 'rgba(255,255,255,0.04)');
+      ctx.fillStyle = reflection;
+      ctx.fillRect(0, -105, 270, 110);
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'screen';
+      ctx.translate(-10 + glint * 270, -70);
+      ctx.rotate(-0.22);
+      const gleam = ctx.createLinearGradient(0, 0, 28, 0);
+      gleam.addColorStop(0, 'rgba(255,255,255,0)');
+      gleam.addColorStop(0.45, 'rgba(255,255,255,0.42)');
+      gleam.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = gleam;
+      ctx.fillRect(0, -70, 26, 160);
+      ctx.restore();
+
+      for (let i = 0; i < 4; i++) {
+        ctx.strokeStyle = `rgba(255,255,255,${0.04 + i * 0.02})`;
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(18 + i * 14, -94 + i * 4);
+        ctx.lineTo(216 + i * 7, -26 + i * 4);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+
+      ctx.strokeStyle = 'rgba(52, 60, 66, 0.85)';
+      ctx.lineWidth = 1.3;
+      ctx.stroke(blade);
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.58)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(-4, -2);
+      ctx.lineTo(225, -12);
+      ctx.stroke();
+
+      const handleFill = ctx.createLinearGradient(-220, -100, -30, -10);
+      handleFill.addColorStop(0, '#0a0c0f');
+      handleFill.addColorStop(0.25, '#25292e');
+      handleFill.addColorStop(0.5, '#111417');
+      handleFill.addColorStop(0.82, '#33373b');
+      handleFill.addColorStop(1, '#121416');
+      ctx.fillStyle = handleFill;
+      ctx.fill(handle);
+      ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+      ctx.lineWidth = 1.1;
+      ctx.stroke(handle);
+
+      ctx.fillStyle = 'rgba(198,205,210,0.75)';
+      for (let i = 0; i < 3; i++) {
+        ctx.beginPath();
+        ctx.arc(-171 + i * 44, -56, 5.3, 0, TAU);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(92,97,103,0.8)';
+        ctx.beginPath();
+        ctx.arc(-171 + i * 44, -56, 2.4, 0, TAU);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(198,205,210,0.75)';
+      }
+
+      ctx.fillStyle = 'rgba(212,218,224,0.78)';
+      ctx.beginPath();
+      ctx.moveTo(-44, -84);
+      ctx.lineTo(-24, -78);
+      ctx.lineTo(-9, -10);
+      ctx.lineTo(-31, -18);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function createSlice(cutIndex) {
+      const currentLeft = cucumber.left + cutIndex * cucumber.sliceWidth;
+      const s = {
+        x: currentLeft + cucumber.sliceWidth * 0.58,
+        y: board.y - cucumber.r + 1,
+        vx: -0.85 - rand() * 0.6,
+        vy: -3.0 - rand() * 1.0,
+        rot: -0.12 + rand() * 0.26,
+        vr: (-0.02 + rand() * 0.04),
+        settleX: cucumber.left - 24 - state.slices.length * 24
+      };
+      state.slices.push(s);
+      if (state.slices.length > 20) state.slices.shift();
+    }
+
+    function updateSlices(vibration) {
+      const floorY = board.y - cucumber.r + 1;
+      for (const s of state.slices) {
+        s.x += s.vx + (s.settleX - s.x) * 0.026 + vibration * 0.02;
+        s.y += s.vy;
+        s.vy += 0.20;
+        s.rot += s.vr + vibration * 0.00035;
+        s.vx *= 0.985;
+        s.vr *= 0.992;
+
+        if (s.y > floorY) {
+          s.y = floorY;
+          if (Math.abs(s.vy) > 0.7) {
+            s.vy *= -0.22;
+            s.vr += (-0.006 + rand() * 0.012);
+          } else {
+            s.vy = 0;
+          }
+        }
+
+        if (Math.abs(s.settleX - s.x) < 0.2 && s.vy === 0) {
+          s.rot *= 0.995;
+        }
+      }
+    }
+
+    function animate(ms) {
+      const t = ms * 0.001;
+      const cutDuration = 1.56;
+      const globalCycle = Math.floor(t / cutDuration);
+      const loop = Math.floor(globalCycle / cucumber.maxCuts);
+      const cutIndex = globalCycle % cucumber.maxCuts;
+      const phase = (t / cutDuration) - globalCycle;
+
+      if (loop !== state.loop) {
+        state.loop = loop;
+        state.slices = [];
+      }
+
+      if (globalCycle !== state.globalCycle) {
+        state.globalCycle = globalCycle;
+        state.sliceMade = false;
+      }
+
+      const currentLeft = cucumber.left + cutIndex * cucumber.sliceWidth;
+      const currentLength = cucumber.initialLength - cutIndex * cucumber.sliceWidth;
+      const cutX = currentLeft + cucumber.sliceWidth - 2;
+
+      const prePress = smoothstep(0.34, 0.56, phase);
+      const deepCut = smoothstep(0.56, 0.72, phase);
+      const release = smoothstep(0.72, 0.97, phase);
+      let down = prePress * 0.58 + deepCut * 0.42;
+      down *= (1 - release);
+
+      const startY = cucumber.y - cucumber.r - 72;
+      const endY = board.y + 1.5;
+      const impact = gaussian(phase, 0.705, 0.04);
+      const vibration = Math.sin(t * 145) * impact * 2.8;
+
+      const knifeX = cutX - 30 + smoothstep(0.28, 0.72, phase) * 34 - release * 8;
+      const knifeY = lerp(startY, endY, down) + vibration * 0.35;
+      const knifeAngle = lerp(-0.27, -0.09, smoothstep(0.20, 0.72, phase)) + release * 0.08 + vibration * 0.0015;
+
+      const compression = smoothstep(0.40, 0.60, phase) * (1 - smoothstep(0.62, 0.74, phase)) * 8.5;
+      const glint = (Math.sin(t * 1.4) * 0.5 + 0.5);
+
+      if (!state.sliceMade && phase >= 0.69) {
+        createSlice(cutIndex);
+        state.sliceMade = true;
+      }
+
+      updateSlices(vibration);
+
+      drawBackground();
+      drawBoard(vibration);
+
+      for (const s of state.slices) {
+        drawSlice(s, vibration);
+      }
+
+      drawCucumber(currentLeft, currentLength, cutX, compression, phase);
+
+      const contactGlow = impact * 0.18;
+      if (contactGlow > 0.001) {
+        ctx.strokeStyle = `rgba(255,255,255,${contactGlow})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cutX - 16, board.y + vibration * 0.1);
+        ctx.lineTo(cutX + 26, board.y + vibration * 0.1);
+        ctx.stroke();
+      }
+
+      drawKnife(knifeX, knifeY, knifeAngle, glint, vibration, t);
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
