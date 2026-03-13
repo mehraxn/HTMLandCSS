@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semantic HTML Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      background: #f7f9fc;
+      color: #1f2937;
+    }
+    header {
+      background: #1d4ed8;
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+    .page {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+    .box {
+      background: white;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+    .tag {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e3a8a;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    nav.box {
+      border-color: #93c5fd;
+      background: #eff6ff;
+    }
+    nav a {
+      margin-right: 12px;
+      text-decoration: none;
+      color: #1d4ed8;
+      font-weight: bold;
+    }
+    section.box {
+      border-color: #a7f3d0;
+      background: #ecfdf5;
+    }
+    article.box {
+      border-color: #fcd34d;
+      background: #fffbeb;
+      margin-top: 16px;
+    }
+    aside.box {
+      border-color: #f9a8d4;
+      background: #fdf2f8;
+      height: fit-content;
+    }
+    h1, h2, h3 { margin-top: 0; }
+    .small {
+      color: #475569;
+      font-size: 14px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+    }
+    @media (max-width: 800px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Semantic HTML Made Simple</h1>
+    <p>See what each tag is for by looking at the page itself.</p>
+  </header>
+
+  <div class="page">
+    <main>
+      <nav class="box">
+        <div class="tag">&lt;nav&gt;</div>
+        <h2>Navigation</h2>
+        <p class="small">Use this for menus and links that help people move around the site.</p>
+        <a href="#section-demo">Go to Section</a>
+        <a href="#article-demo">Go to Article</a>
+        <a href="#aside-demo">Go to Aside</a>
+      </nav>
+
+      <section id="section-demo" class="box">
+        <div class="tag">&lt;section&gt;</div>
+        <h2>This is a Section</h2>
+        <p class="small">A section is just a part of the page that groups related content together.</p>
+
+        <article id="article-demo" class="box">
+          <div class="tag">&lt;article&gt;</div>
+          <h3>This is an Article</h3>
+          <p class="small">An article is a complete piece of content that can stand on its own, like a blog post or news story.</p>
+          <p>
+            Example: This could be one full blog post inside the section.
+            If you copied this article and placed it on another page, it would still make sense.
+          </p>
+        </article>
+
+        <article class="box">
+          <div class="tag">&lt;article&gt;</div>
+          <h3>Another Article</h3>
+          <p>
+            A section can contain multiple articles when it groups similar standalone items.
+          </p>
+        </article>
+      </section>
+    </main>
+
+    <aside id="aside-demo" class="box">
+      <div class="tag">&lt;aside&gt;</div>
+      <h2>Extra Info</h2>
+      <p class="small">Use aside for side content that supports the main content but is not the main focus.</p>
+      <ul>
+        <li>Related links</li>
+        <li>Tips</li>
+        <li>Author info</li>
+        <li>Ads or sidebar notes</li>
+      </ul>
+    </aside>
+  </div>
+
+  <footer>
+    Tip: article = full piece, section = grouped part, nav = menu, aside = extra info.
+  </footer>
+</body>
+</html>
