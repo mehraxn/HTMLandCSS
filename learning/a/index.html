@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS Grid Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <h1>CSS Grid Demo</h1>
+      <p>
+        This page shows how a grid container creates rows and columns, adds gaps,
+        and lets items span across multiple tracks.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>HTML structure</h2>
+      <p>
+        The parent element becomes a grid container with <code>display: grid</code>.
+        Each child inside it becomes a grid item.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Live grid example</h2>
+      <p class="note">
+        This grid has 3 equal columns, a 16px gap, and a couple of items that span
+        more than one row or column.
+      </p>
+
+      <div class="grid-demo">
+        <div class="item item-1">1</div>
+        <div class="item item-2">2</div>
+        <div class="item item-3">3</div>
+        <div class="item item-4 wide">4 spans 2 columns</div>
+        <div class="item item-5 tall">5 spans 2 rows</div>
+        <div class="item item-6">6</div>
+        <div class="item item-7">7</div>
+        <div class="item item-8">8</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>What the CSS is doing</h2>
+      <ul>
+        <li><code>display: grid;</code> turns the container into a grid.</li>
+        <li><code>grid-template-columns: 1fr 1fr 1fr;</code> makes 3 equal columns.</li>
+        <li><code>grid-template-rows: 100px 100px 100px 100px;</code> defines the row sizes.</li>
+        <li><code>grid-gap: 16px;</code> adds space between items.</li>
+        <li><code>grid-column: span 2;</code> makes an item stretch across 2 columns.</li>
+        <li><code>grid-row: span 2;</code> makes an item stretch across 2 rows.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

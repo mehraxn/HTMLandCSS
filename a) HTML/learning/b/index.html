@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS Units Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>CSS Units Live Demo</h1>
+  <p class="intro">Resize the browser window to see how the units react.</p>
+
+  <section class="box">
+    <h2>px</h2>
+    <div class="demo px-box">200px wide</div>
+    <p>Fixed size.</p>
+  </section>
+
+  <section class="box">
+    <h2>%</h2>
+    <div class="percent-parent">
+      Parent box
+      <div class="demo percent-child">50%</div>
+    </div>
+    <p>Relative to the parent.</p>
+  </section>
+
+  <section class="box">
+    <h2>em</h2>
+    <div class="em-parent">
+      Parent font-size: 20px
+      <div class="demo em-child">2em text, 1em padding</div>
+    </div>
+    <p>Relative to the current font size.</p>
+  </section>
+
+  <section class="box">
+    <h2>rem</h2>
+    <div class="demo rem-box">2rem text</div>
+    <p>Relative to the root font size.</p>
+  </section>
+
+  <section class="box">
+    <h2>vw</h2>
+    <div class="demo vw-box">50vw wide</div>
+    <p>Relative to the viewport width.</p>
+  </section>
+
+  <section class="box">
+    <h2>vh</h2>
+    <div class="demo vh-box">20vh tall</div>
+    <p>Relative to the viewport height.</p>
+  </section>
+</body>
+</html>

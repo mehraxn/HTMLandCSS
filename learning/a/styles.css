@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
+  color: #1f2937;
+}
+
+.page {
+  max-width: 960px;
+  margin: 60px auto;
+  padding: 32px 20px 48px;
+}
+
+.hero {
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  margin: 0 0 12px;
+  font-size: 2.2rem;
+}
+
+.hero p {
+  margin: 0;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.note {
+  margin-bottom: 16px;
+  color: #4b5563;
+}
+
+.grid-demo {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100px 100px 100px 100px;
+  grid-gap: 16px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1.05rem;
+  color: white;
+}
+
+.item-1 { background: #2563eb; }
+.item-2 { background: #7c3aed; }
+.item-3 { background: #059669; }
+.item-4 { background: #ea580c; }
+.item-5 { background: #dc2626; }
+.item-6 { background: #0891b2; }
+.item-7 { background: #4f46e5; }
+.item-8 { background: #16a34a; }
+
+.wide {
+  grid-column: span 2;
+}
+
+.tall {
+  grid-row: span 2;
+}
+
+code {
+  background: #eef2ff;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+ul {
+  line-height: 1.7;
+}

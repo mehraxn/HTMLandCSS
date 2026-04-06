@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS Positioning Schemes Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <aside class="fixed-note">
+    <h3>Fixed demo</h3>
+    <p>This panel uses <code>position: fixed</code>.</p>
+    <p>Scroll the page — it stays pinned to the viewport.</p>
+  </aside>
+
+  <header class="hero">
+    <div class="container">
+      <p class="eyebrow">CSS layout lesson</p>
+      <h1>CSS Positioning Schemes</h1>
+      <p class="lead">
+        A complete visual guide to <code>static</code>, <code>relative</code>, <code>absolute</code>, and <code>fixed</code> positioning.
+      </p>
+      <nav class="top-nav">
+        <a href="#static">Static</a>
+        <a href="#relative">Relative</a>
+        <a href="#absolute">Absolute</a>
+        <a href="#fixed">Fixed</a>
+        <a href="#compare">Compare</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="summary-card">
+      <h2>Quick summary</h2>
+      <ul class="summary-list">
+        <li><strong>Static</strong>: default position, follows the normal document flow.</li>
+        <li><strong>Relative</strong>: stays in the normal flow, then moves relative to its original position.</li>
+        <li><strong>Absolute</strong>: removed from the normal flow and positioned relative to the nearest positioned ancestor.</li>
+        <li><strong>Fixed</strong>: removed from the normal flow and positioned relative to the viewport.</li>
+      </ul>
+    </section>
+
+    <section id="static" class="concept-section">
+      <div class="text-side">
+        <h2>1) Static positioning</h2>
+        <p>
+          <code>position: static</code> is the default for most elements. The element stays in the normal document flow,
+          and properties like <code>top</code>, <code>right</code>, <code>bottom</code>, and <code>left</code> do not affect it.
+        </p>
+        <div class="code-block">
+<pre>.box {
+  position: static;
+}</pre>
+        </div>
+        <p class="tip">Use this when you want standard layout behavior.</p>
+      </div>
+      <div class="demo-side">
+        <div class="demo-card">
+          <div class="demo-title">Normal document flow</div>
+          <div class="browser">
+            <div class="box-row">
+              <div class="mini-box">A</div>
+              <div class="mini-box">B</div>
+              <div class="mini-box">C</div>
+            </div>
+            <p class="demo-caption">All boxes appear in order, with no manual offset.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="relative" class="concept-section reverse">
+      <div class="text-side">
+        <h2>2) Relative positioning</h2>
+        <p>
+          A relatively positioned element <strong>keeps its original space</strong> in the layout, but it can be shifted visually
+          using <code>top</code>, <code>left</code>, <code>right</code>, or <code>bottom</code>.
+        </p>
+        <div class="code-block">
+<pre>.moved {
+  position: relative;
+  top: 18px;
+  left: 24px;
+}</pre>
+        </div>
+        <p class="tip">Important: the original space is still reserved, even after the element moves.</p>
+      </div>
+      <div class="demo-side">
+        <div class="demo-card">
+          <div class="demo-title">Shifted from original position</div>
+          <div class="browser">
+            <div class="relative-stage">
+              <div class="ghost-box">Original space</div>
+              <div class="mini-box relative-box">Moved box</div>
+              <div class="mini-box">Neighbor</div>
+            </div>
+            <p class="demo-caption">The dashed outline shows the original spot that still affects layout.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="absolute" class="concept-section">
+      <div class="text-side">
+        <h2>3) Absolute positioning</h2>
+        <p>
+          An absolutely positioned element is <strong>removed from the normal flow</strong>. It is positioned using offset properties,
+          relative to the <strong>nearest ancestor that is not static</strong>.
+        </p>
+        <div class="code-block">
+<pre>.parent {
+  position: relative;
+}
+
+.child {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}</pre>
+        </div>
+        <p class="tip">If no positioned ancestor exists, the element is positioned relative to the page.</p>
+      </div>
+      <div class="demo-side">
+        <div class="demo-card">
+          <div class="demo-title">Nearest positioned ancestor</div>
+          <div class="browser absolute-parent">
+            <span class="ancestor-label">Parent: position: relative</span>
+            <div class="mini-box absolute-box">Absolute</div>
+            <div class="flow-stack">
+              <div class="flow-item"></div>
+              <div class="flow-item"></div>
+              <div class="flow-item"></div>
+            </div>
+            <p class="demo-caption">The absolute box ignores normal flow and snaps to the parent's top-right corner.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fixed" class="concept-section reverse">
+      <div class="text-side">
+        <h2>4) Fixed positioning</h2>
+        <p>
+          A fixed element is also removed from the normal flow, but unlike absolute positioning, it is positioned relative to the
+          <strong>viewport</strong> instead of a parent container.
+        </p>
+        <div class="code-block">
+<pre>.help-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+}</pre>
+        </div>
+        <p class="tip">Common uses: sticky chat buttons, floating action buttons, cookie banners, and pinned toolbars.</p>
+      </div>
+      <div class="demo-side">
+        <div class="demo-card tall-card">
+          <div class="demo-title">Viewport behavior</div>
+          <div class="browser scroll-browser">
+            <div class="scroll-content">
+              <p>Imagine this is a long page.</p>
+              <p>Keep scrolling.</p>
+              <p>The fixed note on the page does not move with this content.</p>
+              <p>It remains anchored to the browser window.</p>
+              <p>That is the key difference from absolute positioning.</p>
+              <p>Fixed is based on the viewport.</p>
+              <p>Absolute is based on a positioned ancestor.</p>
+              <p>Relative still keeps layout space.</p>
+              <p>Static just follows normal flow.</p>
+              <p>Done.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="compare" class="comparison">
+      <h2>Comparison table</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Scheme</th>
+              <th>In normal flow?</th>
+              <th>Can use top/left?</th>
+              <th>Reference point</th>
+              <th>Best for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Static</td>
+              <td>Yes</td>
+              <td>No practical effect</td>
+              <td>Normal flow</td>
+              <td>Default layout</td>
+            </tr>
+            <tr>
+              <td>Relative</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Its original position</td>
+              <td>Small visual nudges, anchor for absolute children</td>
+            </tr>
+            <tr>
+              <td>Absolute</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Nearest positioned ancestor</td>
+              <td>Badges, overlays, precise placement</td>
+            </tr>
+            <tr>
+              <td>Fixed</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Viewport</td>
+              <td>Floating UI that stays on screen</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="best-practices">
+      <h2>Best practices</h2>
+      <div class="practice-grid">
+        <article>
+          <h3>Use relative sparingly</h3>
+          <p>Relative is great for tiny adjustments and for creating a containing block for absolute children.</p>
+        </article>
+        <article>
+          <h3>Use absolute intentionally</h3>
+          <p>Absolute positioning is powerful, but it can overlap content if the parent and spacing are not planned well.</p>
+        </article>
+        <article>
+          <h3>Use fixed for persistent controls</h3>
+          <p>Keep fixed elements small and unobtrusive so they do not cover important content on smaller screens.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

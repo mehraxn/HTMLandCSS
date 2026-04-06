@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Understanding position: relative</title>
+  <link rel="stylesheet" href="relative-demo.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">CSS concept demo</p>
+      <h1>What <code>position: relative</code> really does</h1>
+      <p class="lead">
+        The best way to understand <code>relative</code>: the element <strong>keeps its original space in the layout</strong>,
+        then it is <strong>visually shifted from that spot</strong> using <code>top</code>, <code>left</code>, <code>right</code>, or <code>bottom</code>.
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card intro-card">
+      <h2>Think of it like this</h2>
+      <div class="idea-grid">
+        <div class="idea bad">
+          <h3>What people often imagine</h3>
+          <p>“The box moves, so the layout must recalculate and everything slides with it.”</p>
+        </div>
+        <div class="idea good">
+          <h3>What actually happens</h3>
+          <p>“The layout keeps the box's original slot. The box is then nudged away from that slot.”</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card playground">
+      <div class="section-head">
+        <div>
+          <h2>Interactive visual demo</h2>
+          <p>Pick a state below and watch only the middle box move. The other boxes keep their layout positions.</p>
+        </div>
+      </div>
+
+      <input type="radio" name="state" id="state-0" checked>
+      <input type="radio" name="state" id="state-1">
+      <input type="radio" name="state" id="state-2">
+      <input type="radio" name="state" id="state-3">
+
+      <div class="controls">
+        <label for="state-0">Original</label>
+        <label for="state-1">top: 24px; left: 34px;</label>
+        <label for="state-2">top: -18px; left: 42px;</label>
+        <label for="state-3">top: 0; left: 0;</label>
+      </div>
+
+      <div class="browser-demo">
+        <div class="legend">
+          <span><i class="legend-box slot"></i> reserved layout slot</span>
+          <span><i class="legend-box moved"></i> actual element</span>
+        </div>
+
+        <div class="row-demo">
+          <div class="slot-card">A</div>
+          <div class="slot moving-slot">
+            <div class="slot-shadow">Original slot</div>
+            <div class="card-box moved-box">B</div>
+          </div>
+          <div class="slot-card">C</div>
+          <div class="slot-card">D</div>
+        </div>
+
+        <div class="callout">
+          <p class="message message-0"><strong>Original:</strong> B is sitting exactly in its normal place.</p>
+          <p class="message message-1"><strong>Moved down and right:</strong> B shifts visually, but C and D do not move.</p>
+          <p class="message message-2"><strong>Moved up and right:</strong> B can even overlap other space, but its original slot is still reserved.</p>
+          <p class="message message-3"><strong>Back to start:</strong> The original slot and the visible box line up again.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid-two">
+      <article class="card compare-card">
+        <h2>Compare: static vs relative</h2>
+
+        <div class="mini-compare">
+          <div>
+            <h3>Static</h3>
+            <div class="mini-browser">
+              <div class="mini-row">
+                <div class="mini">A</div>
+                <div class="mini">B</div>
+                <div class="mini">C</div>
+              </div>
+            </div>
+            <p>The boxes just follow normal flow.</p>
+          </div>
+
+          <div>
+            <h3>Relative</h3>
+            <div class="mini-browser">
+              <div class="mini-row relative-example">
+                <div class="mini">A</div>
+                <div class="mini mini-slot">slot</div>
+                <div class="mini mini-relative">B</div>
+                <div class="mini">C</div>
+              </div>
+            </div>
+            <p>B moves visually. The <em>slot</em> remains part of the layout.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="card flow-card">
+        <h2>Why this matters in real layouts</h2>
+        <div class="stack-demo">
+          <div class="stack-item">Header</div>
+          <div class="stack-item relative-stack">Relative box</div>
+          <div class="stack-item">Next content</div>
+        </div>
+        <p>
+          The “Next content” block does not move up to replace the relative box's original place.
+          That is the key idea: <strong>relative changes where the element is drawn, not where its space exists in layout.</strong>
+        </p>
+      </article>
+    </section>
+
+    <section class="card code-card">
+      <h2>The exact CSS idea</h2>
+      <pre><code>.box {
+  position: relative;
+  top: 24px;
+  left: 34px;
+}</code></pre>
+      <ul class="plain-list">
+        <li>The box still owns its original place.</li>
+        <li><code>top</code> and <code>left</code> move it from that place.</li>
+        <li>Nearby elements behave as if the box never left its original slot.</li>
+        <li>This is why relative is great for small nudges and for creating a positioning context.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaCart — Understanding position: relative</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shop-relative.css" />
+</head>
+<body>
+  <div class="floating-cart">
+    <span class="cart-icon">🛒</span>
+    <span class="cart-count">3</span>
+  </div>
+
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">NovaCart</div>
+      <nav>
+        <a href="#products">Products</a>
+        <a href="#relative-demo">Why Relative?</a>
+        <a href="#patterns">Shop UI Patterns</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">A real shop page with a real CSS lesson</p>
+          <h1>Where <code>position: relative</code> shows up in shopping websites</h1>
+          <p class="lead">
+            In real e-commerce pages, <strong>relative</strong> is often added to a card, image, or button so small UI pieces
+            like badges, wishlist hearts, labels, and quick actions can be placed exactly where they belong.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#relative-demo">See the core idea</a>
+            <a class="btn btn-secondary" href="#products">Browse products</a>
+          </div>
+        </div>
+
+        <div class="hero-card card-is-relative">
+          <span class="hero-tag">NEW DROP</span>
+          <span class="hero-note note-top">Parent has <code>position: relative</code></span>
+          <span class="hero-note note-bottom">Badge uses <code>position: absolute</code></span>
+          <div class="hero-product">
+            <div class="shoe"></div>
+          </div>
+          <div class="hero-copy">
+            <h3>Motion Runner</h3>
+            <p>Notice how the "NEW DROP" badge stays attached to this card, not the whole page.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="relative-demo" class="section light">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">The concept</p>
+          <h2>What <code>position: relative</code> is doing here</h2>
+          <p>
+            The product card stays in normal layout. But once it becomes <code>position: relative</code>, it becomes a
+            <strong>positioning reference</strong> for things inside it.
+          </p>
+        </div>
+
+        <div class="concept-grid">
+          <article class="concept-card good">
+            <h3>With <code>position: relative</code> on the card</h3>
+            <div class="demo-card parent-relative">
+              <span class="badge sale">-25%</span>
+              <span class="heart">♡</span>
+              <div class="product-photo lamp"></div>
+              <div class="demo-copy">
+                <strong>Nord Lamp</strong>
+                <span>$74</span>
+              </div>
+            </div>
+            <ul>
+              <li>The card stays where it naturally belongs.</li>
+              <li>The sale badge sits at the card’s top-left corner.</li>
+              <li>The heart sits at the card’s top-right corner.</li>
+            </ul>
+          </article>
+
+          <article class="concept-card bad">
+            <h3>Without <code>position: relative</code> on the card</h3>
+            <div class="bad-demo-wrap">
+              <span class="page-badge">-25%</span>
+              <div class="demo-card parent-static">
+                <div class="product-photo lamp"></div>
+                <div class="demo-copy">
+                  <strong>Nord Lamp</strong>
+                  <span>$74</span>
+                </div>
+              </div>
+            </div>
+            <ul>
+              <li>The card is still in normal layout.</li>
+              <li>But an absolutely positioned badge looks for another ancestor.</li>
+              <li>So it can jump to the page corner instead of the card corner.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="explain-strip">
+          <div>
+            <strong>Important:</strong> <code>relative</code> does <em>not</em> usually mean “move this box somewhere else.”
+            On shop pages, it often means: <strong>“let children position themselves relative to me.”</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Real page example</p>
+          <h2>Product grid using relative positioning</h2>
+          <p>Each card below uses <code>position: relative</code> so badges and floating controls stay attached to that card.</p>
+        </div>
+
+        <div class="products-grid">
+          <article class="product-card">
+            <span class="product-badge hot">Best Seller</span>
+            <button class="wish-btn" aria-label="Add to wishlist">♡</button>
+            <div class="product-image watch"></div>
+            <div class="product-info">
+              <h3>Orbit Watch</h3>
+              <p>Minimal steel watch with midnight dial.</p>
+              <div class="price-row">
+                <span class="price">$129</span>
+                <span class="old-price">$159</span>
+              </div>
+            </div>
+            <a href="#patterns" class="quick-view">Quick view</a>
+          </article>
+
+          <article class="product-card">
+            <span class="product-badge sale">Sale</span>
+            <button class="wish-btn" aria-label="Add to wishlist">♡</button>
+            <div class="product-image chair"></div>
+            <div class="product-info">
+              <h3>Aero Chair</h3>
+              <p>Soft boucle finish with a compact lounge profile.</p>
+              <div class="price-row">
+                <span class="price">$249</span>
+                <span class="old-price">$320</span>
+              </div>
+            </div>
+            <a href="#patterns" class="quick-view">Quick view</a>
+          </article>
+
+          <article class="product-card">
+            <span class="product-badge new">New</span>
+            <button class="wish-btn" aria-label="Add to wishlist">♡</button>
+            <div class="product-image bag"></div>
+            <div class="product-info">
+              <h3>Drift Backpack</h3>
+              <p>Travel-ready backpack with padded laptop sleeve.</p>
+              <div class="price-row">
+                <span class="price">$84</span>
+              </div>
+            </div>
+            <a href="#patterns" class="quick-view">Quick view</a>
+          </article>
+
+          <article class="product-card">
+            <span class="product-badge low">Low Stock</span>
+            <button class="wish-btn" aria-label="Add to wishlist">♡</button>
+            <div class="product-image speaker"></div>
+            <div class="product-info">
+              <h3>Pulse Speaker</h3>
+              <p>Portable wireless speaker with deep bass response.</p>
+              <div class="price-row">
+                <span class="price">$96</span>
+              </div>
+            </div>
+            <a href="#patterns" class="quick-view">Quick view</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="patterns" class="section light">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Common shop patterns</p>
+          <h2>Places where stores use relative positioning</h2>
+        </div>
+
+        <div class="patterns-grid">
+          <article class="pattern-card">
+            <h3>1. Sale badge on a card</h3>
+            <p>The badge is absolutely positioned, and the product card is relative so the badge stays pinned to that card.</p>
+            <pre><code>.product-card {
+  position: relative;
+}
+
+.product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}</code></pre>
+          </article>
+
+          <article class="pattern-card">
+            <h3>2. Wishlist heart over the image</h3>
+            <p>The heart is placed on the top-right corner of the card without changing the card’s normal place in the grid.</p>
+            <pre><code>.wish-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}</code></pre>
+          </article>
+
+          <article class="pattern-card">
+            <h3>3. Quick view button near the bottom</h3>
+            <p>The button is anchored inside the same card, so it moves together with the card on responsive layouts.</p>
+            <pre><code>.quick-view {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+}</code></pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section summary">
+      <div class="container summary-card">
+        <h2>Best mental model</h2>
+        <p>
+          In a real shop page, <code>position: relative</code> often means:
+          <strong>“Keep this box in the normal layout, but let absolutely positioned children use this box as their anchor.”</strong>
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
