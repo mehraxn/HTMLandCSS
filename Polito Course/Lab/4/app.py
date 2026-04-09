@@ -1,69 +1,35 @@
+# import module
 from flask import Flask, render_template
 
+# create the application
 app = Flask(__name__)
 
-# Data structure for homepage posts
-posts = [
-    {
-        "username": "Alice",
-        "publication_date": "2026-04-01",
-        "text": "Welcome to our social network! This is our first post built with Flask and Jinja.",
-        "profile_image": "images/profile1.jpg",
-        "post_image": "images/post1.jpg",
-    },
-    {
-        "username": "Marco",
-        "publication_date": "2026-04-03",
-        "text": "We are learning how to separate application data from HTML using Flask templates.",
-        "profile_image": "images/profile2.jpg",
-        "post_image": "",
-    },
-    {
-        "username": "Sara",
-        "publication_date": "2026-04-04",
-        "text": "Bootstrap helps us style the interface, while Jinja lets us display dynamic content easily.",
-        "profile_image": "images/profile3.jpg",
-        "post_image": "images/post2.jpg",
-    },
-]
+# define the homepage
+@app.route('/')
+def index():
+    posts = [
+        {'id': 1234, 'usrname': '@juan', 'usrimg': 'user.jpg', 'img': 'img1.jpg',
+         'date': '1 giorno fa', 'post': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique lobortis molestie. Donec laoreet iaculis nibh sed viverra. Nunc condimentum tincidunt mollis. Curabitur gravida aliquam urna, ac vulputate felis condimentum at. Sed sapien lectus, aliquam ac ornare sed, dapibus pulvinar ligula. Ut ultrices a nibh eget eleifend. Nullam eleifend metus nec erat vestibulum venenatis ornare sed orci. Donec vel sapien sit amet felis cursus rutrum.'},
+        {'id': 5678, 'usrname': '@luigi', 'usrimg': 'user.jpg', 'img': 'img2.jpg',
+         'date': '4 giorni fa', 'post': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique lobortis molestie. Donec laoreet iaculis nibh sed viverra. Nunc condimentum tincidunt mollis. Curabitur gravida aliquam urna, ac vulputate felis condimentum at. Sed sapien lectus, aliquam ac ornare sed, dapibus pulvinar ligula. Ut ultrices a nibh eget eleifend. Nullam eleifend metus nec erat vestibulum venenatis ornare sed orci. Donec vel sapien sit amet felis cursus rutrum.'},
+        {'id': 9012, 'usrname': '@alberto', 'usrimg': 'user.jpg', 'img': 'img3.jpg',
+         'date': '2 settimane fa', 'post': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique lobortis molestie. Donec laoreet iaculis nibh sed viverra. Nunc condimentum tincidunt mollis. Curabitur gravida aliquam urna, ac vulputate felis condimentum at. Sed sapien lectus, aliquam ac ornare sed, dapibus pulvinar ligula. Ut ultrices a nibh eget eleifend. Nullam eleifend metus nec erat vestibulum venenatis ornare sed orci. Donec vel sapien sit amet felis cursus rutrum.'}
+    ]
+    return render_template('index.html', p_posts=posts)
 
-
-@app.route("/")
-def home():
-    return render_template("index.html", posts=posts)
-
-
-@app.route("/about")
+# define the 'about' page
+@app.route('/about')
 def about():
     developers = [
-        {
-            "name": "Alice",
-            "role": "Front-end Developer",
-            "bio": "Works on the layout, styles, and user experience of the social network.",
-            "image": "images/dev1.jpg",
-        },
-        {
-            "name": "Marco",
-            "role": "Back-end Developer",
-            "bio": "Builds the Flask application, routes, and post management logic.",
-            "image": "images/dev2.jpg",
-        },
-        {
-            "name": "Sara",
-            "role": "UI Designer",
-            "bio": "Designs the visual identity of the platform and improves usability.",
-            "image": "images/dev3.jpg",
-        },
+        {'id': 1234, 'name': 'Juan Pablo Sáenz', 'devimg': 'user.jpg',
+            'quote': 'A well-known quote, contained in a blockquote element', 'quoteAuthor': 'First quote author'},
+        {'id': 5678, 'name': 'Luigi De Russis', 'devimg': 'user.jpg',
+            'quote': 'A well-known quote, contained in a blockquote element', 'quoteAuthor': 'Second quote author'},
+        {'id': 9012, 'name': 'Alberto Monge Roffarello', 'devimg': 'user.jpg',
+            'quote': 'A well-known quote, contained in a blockquote element', 'quoteAuthor': 'Third quote author'}
     ]
-
-    social_link = "https://example.com"
-
-    return render_template(
-        "about.html",
-        developers=developers,
-        social_link=social_link,
-    )
+    return render_template('about.html', p_developers=developers)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=True)
