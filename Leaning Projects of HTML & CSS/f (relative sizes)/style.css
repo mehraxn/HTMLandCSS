@@ -1,0 +1,99 @@
+/* Root font size */
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #222;
+}
+
+/* Uses vh for height and vw for horizontal padding */
+.hero {
+  height: 40vh;
+  padding: 0 8vw;
+  background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Uses rem: relative to root html font-size */
+.hero h1 {
+  margin: 0;
+  font-size: 3rem;
+}
+
+/* Uses rem too */
+.hero p {
+  font-size: 1.25rem;
+  max-width: 60%;
+}
+
+/* Uses % width */
+.container {
+  width: 85%;
+  margin: 3rem auto;
+}
+
+/* Uses % width and rem spacing */
+.card {
+  width: 48%;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  background-color: white;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.08);
+}
+
+/* Just to separate the two cards visually */
+.intro-card {
+  margin-right: 3%;
+}
+
+/* Uses em:
+   font-size affects child em-based values inside this card */
+.side-card {
+  font-size: 1.25em;
+}
+
+/* Uses em for padding and border-radius,
+   so these depend on the element's own font size */
+.demo-btn {
+  font-size: 1em;
+  padding: 1em 2em;
+  border: none;
+  border-radius: 0.5em;
+  background-color: #3a7bd5;
+  color: white;
+  cursor: pointer;
+}
+
+/* Uses vw for width and vh for height */
+.banner {
+  width: 60vw;
+  height: 20vh;
+  background-color: #222;
+  color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
+}
+
+/* Extra text styling */
+h2 {
+  font-size: 2rem;
+  margin-top: 0;
+}
+
+p {
+  line-height: 1.6;
+  font-size: 1rem;
+}
