@@ -1,0 +1,158 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f4f6f9;
+  color: #222;
+  padding: 30px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+p {
+  margin-bottom: 25px;
+}
+
+.button-group {
+  margin-bottom: 30px;
+}
+
+.button-group h2 {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.btn {
+  padding: 12px 20px;
+  margin: 8px 8px 8px 0;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5c636a;
+}
+
+.btn-success {
+  background-color: #198754;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #157347;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #bb2d3b;
+}
+
+.btn-outline-primary {
+  background-color: transparent;
+  border: 2px solid #0d6efd;
+  color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-outline-dark {
+  background-color: transparent;
+  border: 2px solid #222;
+  color: #222;
+}
+
+.btn-outline-dark:hover {
+  background-color: #222;
+  color: white;
+}
+
+.btn-rounded {
+  background-color: #20c997;
+  color: white;
+  border-radius: 12px;
+}
+
+.btn-pill {
+  background-color: #6610f2;
+  color: white;
+  border-radius: 50px;
+}
+
+.btn-shadow {
+  background-color: #fd7e14;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-gradient {
+  background: linear-gradient(45deg, #ff416c, #ff4b2b);
+  color: white;
+}
+
+.btn-disabled {
+  background-color: #adb5bd;
+  color: white;
+  cursor: not-allowed;
+}
+
+.btn-block {
+  width: 100%;
+  background-color: #212529;
+  color: white;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+input {
+  flex: 1;
+  min-width: 220px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
