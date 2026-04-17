@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning ul & li</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <h1>Mastering <code>&lt;ul&gt;</code> &amp; <code>&lt;li&gt;</code></h1>
+    <p class="subtitle">Six real-world ways to use lists in HTML</p>
+  </header>
+
+  <main>
+
+    <section class="card">
+      <div class="label">Example 1</div>
+      <h2>Basic Bullet List</h2>
+      <p>The simplest use of <code>ul</code> — an unordered list with default bullets.</p>
+
+      <ul class="basic-list">
+        <li>HTML stands for HyperText Markup Language</li>
+        <li>CSS stands for Cascading Style Sheets</li>
+        <li>JavaScript makes pages interactive</li>
+        <li>Together they form the frontend of the web</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div class="label">Example 2</div>
+      <h2>Navigation Menu</h2>
+      <p>A <code>ul</code> inside a <code>nav</code> is the standard way to build navigation links.</p>
+
+      <nav>
+        <ul class="nav-list">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Portfolio</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <section class="card">
+      <div class="label">Example 3</div>
+      <h2>Nested Lists</h2>
+      <p>You can put a <code>ul</code> <em>inside</em> an <code>li</code> to create sub-items.</p>
+
+      <ul class="nested-list">
+        <li>Frontend
+          <ul>
+            <li>HTML</li>
+            <li>CSS
+              <ul>
+                <li>Flexbox</li>
+                <li>Grid</li>
+                <li>Animations</li>
+              </ul>
+            </li>
+            <li>JavaScript</li>
+          </ul>
+        </li>
+        <li>Backend
+          <ul>
+            <li>Node.js</li>
+            <li>Python</li>
+            <li>Databases</li>
+          </ul>
+        </li>
+        <li>DevOps
+          <ul>
+            <li>Docker</li>
+            <li>CI / CD</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div class="label">Example 4</div>
+      <h2>Feature List with Icons</h2>
+      <p>Replacing the default bullet with a custom icon using CSS <code>::before</code>.</p>
+
+      <ul class="feature-list">
+        <li>Fully responsive design</li>
+        <li>Accessible and semantic markup</li>
+        <li>Fast loading performance</li>
+        <li>Cross-browser compatible</li>
+        <li>SEO-friendly structure</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div class="label">Example 5</div>
+      <h2>Horizontal Tag List</h2>
+      <p>Using <code>display: flex</code> on the <code>ul</code> turns the list horizontal — great for tags or chips.</p>
+
+      <ul class="tag-list">
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>React</li>
+        <li>Node.js</li>
+        <li>Git</li>
+        <li>Figma</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div class="label">Example 6</div>
+      <h2>Grid Card List</h2>
+      <p>A <code>ul</code> with <code>display: grid</code> on the parent — each <code>li</code> becomes a card.</p>
+
+      <ul class="grid-list">
+        <li>
+          <span class="card-icon">🎨</span>
+          <strong>Design</strong>
+          <p>Shape, colour, and typography</p>
+        </li>
+        <li>
+          <span class="card-icon">💻</span>
+          <strong>Code</strong>
+          <p>HTML, CSS, and JavaScript</p>
+        </li>
+        <li>
+          <span class="card-icon">🚀</span>
+          <strong>Deploy</strong>
+          <p>Host your project online</p>
+        </li>
+        <li>
+          <span class="card-icon">🔍</span>
+          <strong>Test</strong>
+          <p>Debug and improve quality</p>
+        </li>
+        <li>
+          <span class="card-icon">📈</span>
+          <strong>Grow</strong>
+          <p>Analytics and optimisation</p>
+        </li>
+        <li>
+          <span class="card-icon">🤝</span>
+          <strong>Collaborate</strong>
+          <p>Work with a team via Git</p>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Built to learn <code>&lt;ul&gt;</code> &amp; <code>&lt;li&gt;</code> — HTML &amp; CSS practice</p>
+  </footer>
+
+</body>
+</html>
