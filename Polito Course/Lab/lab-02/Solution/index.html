@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Introduction to Web Applications</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,6 +12,7 @@
   <div class="header">
     <div class="header-box">
       <h1>EchoNet</h1>
+
       <div class="menu">
         <a href="#">Home</a>
         <span>|</span>
@@ -23,24 +24,26 @@
   <div class="main-wrapper">
 
     <div class="sidebar">
-      <ul>
-        <li><a href="#" class="selected">Today</a></li>
-        <li><a href="#">This week</a></li>
-        <li><a href="#">This month</a></li>
-      </ul>
+      <div class="sidebar-box">
+        <ul>
+          <li><a href="#">Today</a></li>
+          <li><a href="#">This week</a></li>
+          <li><a href="#">This month</a></li>
+        </ul>
+      </div>
     </div>
 
     <div class="feed">
 
       <div class="post">
         <div class="post-image-box">
-          <img src="https://placehold.co/200x160/e8e0d5/8a7968?text=Photo" alt="Post photo by Luigi" class="post-image">
+          <img src="img1.jpg" alt="Post photo by Luigi" class="post-image">
         </div>
 
         <div class="post-content">
           <div class="post-top">
             <div class="user-info">
-              <img src="https://placehold.co/36x36/d4c9b8/8a7968?text=L" alt="Avatar of Luigi" class="avatar">
+              <img src="img1avatar.jpg" alt="Avatar of Luigi" class="avatar">
               <span class="name">@luigi</span>
             </div>
             <div class="time">2 days ago</div>
@@ -72,15 +75,15 @@
         </div>
       </div>
 
-      <div class="post last-post">
+      <div class="post">
         <div class="post-image-box">
-          <img src="https://placehold.co/200x160/e8e0d5/8a7968?text=Photo" alt="Post photo by Juan" class="post-image">
+          <img src="img3.jpg" alt="Post photo by Juan" class="post-image">
         </div>
 
         <div class="post-content">
           <div class="post-top">
             <div class="user-info">
-              <img src="https://placehold.co/36x36/d4c9b8/8a7968?text=J" alt="Avatar of Juan" class="avatar">
+              <img src="user.jpg" alt="Avatar of Juan" class="avatar">
               <span class="name">@juan</span>
             </div>
             <div class="time">4 days ago</div>
@@ -96,10 +99,10 @@
   </div>
 
   <div class="footer">
-    <p>&copy; 2025 EchoNet &mdash; Introduction to Web Applications</p>
+    <p>&copy; 2025 EchoNet - Introduction to Web Applications</p>
   </div>
 
-  <button class="plus-button" title="New post" aria-label="Create new post">+</button>
+  <button class="plus-button">+</button>
 
 </body>
 </html>
