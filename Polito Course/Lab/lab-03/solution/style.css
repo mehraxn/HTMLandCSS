@@ -1,60 +1,213 @@
-.usrimg {
-    display: inline;
-    height: 50px;
-    vertical-align: middle;
-    margin: 0.5rem 0.5rem 0.5rem 0rem;
+/* General page style */
+* {
+  box-sizing: border-box;
 }
 
-.mybutton {
-    background-color: #04AA6D;
-    border: none;
-    border-radius: 50%;
-    bottom: 30px;
-    color: white;
-    height: 60px;
-    position: fixed;
-    right: 30px;
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    width: 60px;
+body {
+  min-height: 100vh;
+  background-color: #f5f7f6;
+  color: #1a1a2e;
+  font-family: 'DM Sans', sans-serif;
 }
 
-.mynavbar {
-    background-color: #04AA6D;
-    height: 10rem;
+/* Navbar */
+.sn-navbar {
+  background-color: #2e9e6b;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.username {
-    font-weight: 100;
+.sn-brand {
+  color: white !important;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  letter-spacing: 0.01em;
 }
 
-#myaside li {
-    padding-bottom: 5px;
+.sn-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
 }
 
-#myaside ul {
-    list-style-type: none;
-    padding: 0rem 1rem;
+.sn-navbar .nav-link:hover,
+.sn-navbar .nav-link.active {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
-#myheader h1 {
-    color: white;
+.sn-navbar .navbar-toggler {
+  color: white;
 }
 
-@media (max-width: 991.98px) {
+/* Main layout */
+.sn-layout {
+  min-height: calc(100vh - 56px);
+}
 
-    #myaside ul {
-        display: flex;
-        justify-content: space-between;
-        list-style-type: none;
-        padding: 0rem 1rem;
-    }
+/* Sidebar */
+.sn-sidebar {
+  background-color: white;
+  border-right: 1px solid #e0e0e0;
+}
 
-    aside li {
-        display: inline;
-        list-style-type: none;
-        padding: 0em;
-        width: fit-content;
-    }
+.sn-filter-nav {
+  padding: 24px 20px;
+}
+
+.sn-filter-link {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 6px;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.sn-filter-link:hover {
+  background-color: #e8f7f0;
+  color: #247a53;
+}
+
+.sn-filter-link.active {
+  color: #247a53;
+  font-weight: 600;
+}
+
+/* Feed */
+.sn-feed {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Post card */
+.sn-post {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.sn-post:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.11);
+}
+
+.sn-post-img-wrap {
+  height: 100%;
+  min-height: 180px;
+  overflow: hidden;
+}
+
+.sn-post-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sn-post-body {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sn-avatar-wrap {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #2e9e6b;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sn-avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sn-username {
+  color: #247a53;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sn-time {
+  color: #6c757d;
+  font-size: 13px;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.sn-text {
+  margin-bottom: 0;
+  color: #333333;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* Floating plus button */
+.sn-fab {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 1050;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background-color: #2e9e6b;
+  color: white;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(46, 158, 107, 0.45);
+  cursor: pointer;
+}
+
+.sn-fab:hover {
+  background-color: #247a53;
+}
+
+/* Sidebar on tablet and desktop */
+@media (min-width: 768px) {
+  .sn-sidebar {
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+}
+
+/* Sidebar on small screens */
+@media (max-width: 767px) {
+  .sn-filter-nav {
+    padding: 8px 12px;
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .sn-filter-nav ul {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    white-space: nowrap;
+  }
+}
+
+/* Post image on phones */
+@media (max-width: 575px) {
+  .sn-post-img-wrap {
+    min-height: 200px;
+    max-height: 220px;
+  }
 }

@@ -1,0 +1,245 @@
+/* ═══════════════════════════════════════
+   CUSTOM PROPERTIES
+═══════════════════════════════════════ */
+:root {
+  --sn-green:        #2e9e6b;
+  --sn-green-dark:   #247a53;
+  --sn-green-light:  #e8f7f0;
+  --sn-accent:       #26a46e;
+  --sn-text:         #1a1a2e;
+  --sn-muted:        #6c757d;
+  --sn-border:       #e0e0e0;
+  --sn-bg:           #f5f7f6;
+  --sn-white:        #ffffff;
+  --sn-sidebar-w:    220px;
+  --font-display:    'Playfair Display', Georgia, serif;
+  --font-body:       'DM Sans', sans-serif;
+  --radius-card:     10px;
+  --shadow-card:     0 2px 12px rgba(0,0,0,.07);
+}
+
+/* ═══════════════════════════════════════
+   GLOBAL
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--sn-bg);
+  color: var(--sn-text);
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════ */
+.sn-navbar {
+  background-color: var(--sn-green);
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  padding-top: .65rem;
+  padding-bottom: .65rem;
+}
+
+.sn-brand {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: .01em;
+  color: var(--sn-white) !important;
+}
+
+.sn-navbar .nav-link {
+  color: rgba(255,255,255,.85) !important;
+  font-size: .9rem;
+  font-weight: 500;
+  padding: .3rem .6rem;
+  border-radius: 6px;
+  transition: background .2s, color .2s;
+}
+.sn-navbar .nav-link:hover,
+.sn-navbar .nav-link.active {
+  color: var(--sn-white) !important;
+  background: rgba(255,255,255,.15);
+}
+
+.sn-navbar .navbar-toggler {
+  color: var(--sn-white);
+}
+
+/* ═══════════════════════════════════════
+   TWO-COLUMN LAYOUT
+═══════════════════════════════════════ */
+.sn-layout {
+  min-height: calc(100vh - 56px);
+}
+
+/* ── SIDEBAR ── */
+.sn-sidebar {
+  background: var(--sn-white);
+  border-right: 1px solid var(--sn-border);
+}
+
+/* Desktop: fixed-height sticky sidebar */
+@media (min-width: 768px) {
+  .sn-sidebar {
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+}
+
+.sn-filter-nav {
+  padding: 1.5rem 1.25rem;
+}
+
+/* Mobile sidebar → horizontal scrollable tabs */
+@media (max-width: 767.98px) {
+  .sn-filter-nav {
+    padding: .5rem .75rem;
+    display: flex;
+    overflow-x: auto;
+  }
+  .sn-filter-nav ul {
+    display: flex;
+    flex-direction: row;
+    gap: .25rem;
+    white-space: nowrap;
+  }
+}
+
+.sn-filter-link {
+  display: block;
+  padding: .45rem .6rem;
+  border-radius: 6px;
+  color: var(--sn-muted);
+  font-size: .88rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background .18s, color .18s;
+}
+.sn-filter-link:hover {
+  background: var(--sn-green-light);
+  color: var(--sn-green-dark);
+}
+.sn-filter-link.active {
+  color: var(--sn-green-dark);
+  font-weight: 600;
+}
+
+/* ── FEED ── */
+.sn-feed {
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ═══════════════════════════════════════
+   POST CARD
+═══════════════════════════════════════ */
+.sn-post {
+  background: var(--sn-white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  border: 1px solid var(--sn-border);
+  transition: box-shadow .2s;
+}
+.sn-post:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,.11);
+}
+
+/* Image column */
+.sn-post-img-wrap {
+  height: 100%;
+  min-height: 180px;
+  overflow: hidden;
+}
+.sn-post-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* On small screens the image fills full width with fixed height */
+@media (max-width: 575.98px) {
+  .sn-post-img-wrap {
+    min-height: 200px;
+    max-height: 220px;
+  }
+}
+
+/* Content column */
+.sn-post-body {
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Avatar */
+.sn-avatar-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--sn-green);
+  flex-shrink: 0;
+}
+.sn-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sn-username {
+  font-weight: 600;
+  font-size: .9rem;
+  color: var(--sn-green-dark);
+}
+
+.sn-time {
+  font-size: .8rem;
+  color: var(--sn-muted);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.sn-text {
+  font-size: .88rem;
+  line-height: 1.65;
+  color: #333;
+  margin-bottom: 0;
+}
+
+/* ═══════════════════════════════════════
+   FLOATING ACTION BUTTON
+═══════════════════════════════════════ */
+.sn-fab {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 1050;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--sn-green);
+  color: var(--sn-white);
+  border: none;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(46,158,107,.45);
+  cursor: pointer;
+  transition: background .2s, transform .15s, box-shadow .2s;
+}
+.sn-fab:hover {
+  background: var(--sn-green-dark);
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(46,158,107,.55);
+}
+.sn-fab:active {
+  transform: scale(.96);
+}
