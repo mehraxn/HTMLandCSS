@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}EchoNet – About us{% endblock %}
+
+{% block content %}
+<div class="container py-5" id="about-wrapper">
+
+  <header class="text-center mb-5">
+    <h1 class="about-title">About us</h1>
+    <p class="about-subtitle text-muted mx-auto">
+      EchoNet is a university project developed for the course
+      <em>Introduction to Web Applications (01VRP)</em> – academic year 2025/2026.
+      Our goal is to build a simple, modern, and accessible social platform.
+    </p>
+  </header>
+
+  <div class="row justify-content-center g-4">
+    {% for dev in developers %}
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="dev-card h-100 text-center p-4">
+        <img src="{{ dev.photo }}" alt="Photo of {{ dev.name }}" class="dev-avatar mb-3">
+        <h2 class="dev-name">{{ dev.name }}</h2>
+        <span class="dev-role badge mb-3">{{ dev.role }}</span>
+        <p class="dev-bio text-muted">{{ dev.bio }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="text-center mt-5">
+    <a href="{{ url_for('index') }}" class="btn btn-outline-primary px-4">
+      <i class="bi bi-arrow-left me-1"></i> Back to home
+    </a>
+  </div>
+
+</div>
+{% endblock %}

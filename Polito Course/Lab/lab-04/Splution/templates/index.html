@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}EchoNet – Home{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-3 px-md-4" id="feed-wrapper">
+  <div class="row g-4">
+
+    <aside class="col-12 col-md-3 col-lg-2" id="sidebar">
+      <nav class="sidebar-nav d-flex flex-md-column gap-2">
+        <a href="#" class="sidebar-link active">Today</a>
+        <a href="#" class="sidebar-link">This week</a>
+        <a href="#" class="sidebar-link">This month</a>
+      </nav>
+    </aside>
+
+    <main class="col-12 col-md-9 col-lg-10" id="feed">
+
+      {% for post in posts %}
+      <article class="post-card mb-4">
+        <div class="row g-0 align-items-start">
+
+          {% if post.post_image %}
+          <div class="col-12 col-sm-4 col-lg-3">
+            <img src="{{ post.post_image }}" alt="Post by @{{ post.username }}" class="post-image img-fluid">
+          </div>
+
+          <div class="col-12 col-sm-8 col-lg-9 ps-sm-3 pt-3 pt-sm-0">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <img src="{{ post.profile_image }}" alt="Profile of @{{ post.username }}" class="avatar">
+                <span class="author-name">@{{ post.username }}</span>
+              </div>
+              <span class="post-date text-muted small">{{ post.publication_date }}</span>
+            </div>
+
+            <p class="post-text mb-0">{{ post.text }}</p>
+          </div>
+          {% else %}
+          <div class="col-12 ps-sm-3 pt-3 pt-sm-0">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <img src="{{ post.profile_image }}" alt="Profile of @{{ post.username }}" class="avatar">
+                <span class="author-name">@{{ post.username }}</span>
+              </div>
+              <span class="post-date text-muted small">{{ post.publication_date }}</span>
+            </div>
+
+            <p class="post-text mb-0">{{ post.text }}</p>
+          </div>
+          {% endif %}
+
+        </div>
+      </article>
+
+      {% if not loop.last %}
+      <hr class="post-divider">
+      {% endif %}
+
+      {% endfor %}
+
+    </main>
+
+  </div>
+</div>
+
+<button class="fab" aria-label="New post" title="New post">
+  <i class="bi bi-plus-lg"></i>
+</button>
+{% endblock %}
