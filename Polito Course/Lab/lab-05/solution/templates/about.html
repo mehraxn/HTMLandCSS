@@ -1,23 +1,52 @@
 {% extends "base.html" %}
-{% block title %}About{% endblock %}
-{% block about_active %}active{% endblock %}
+
+{% block title %}About us - My Cool Social Network{% endblock %}
 
 {% block content %}
-<div class="row marketing text-center">
-  {% for dev in developers %}
-  <div class="col-lg-4">
-    <div><img class="devimg rounded-circle" src="{{ url_for('static', filename= dev.devimg ) }}"
-        alt="This is the image of user {{ dev.devimg |e }}"></div>
-    <h2 class="fw-normal my-4">{{ dev.name |e }}</h2>
-    <figure class="text-center">
-      <blockquote class="blockquote">
-        <p>{{ dev.quote |e }}</p>
-      </blockquote>
-      <figcaption class="blockquote-footer">
-        {{ dev.quoteAuthor |e }}
-      </figcaption>
-    </figure>
+
+  <div class="about-page">
+    <h1 class="about-title">About us</h1>
+    <p class="about-subtitle">The team behind My Cool Social Network</p>
+
+    <div class="row g-4">
+
+      <div class="col-12 col-md-6">
+        <div class="developer-card">
+          <img
+            src="{{ url_for('static', filename='images/user.jpg') }}"
+            alt="Alberto Rossi"
+            class="developer-image"
+          >
+
+          <div>
+            <h2 class="developer-name">Alberto Rossi</h2>
+            <p class="developer-role">Lead Developer</p>
+            <p class="developer-text">
+              Alberto works on the Flask routes, templates, and the main page structure.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="developer-card">
+          <img
+            src="{{ url_for('static', filename='images/user.jpg') }}"
+            alt="Luigi Bianchi"
+            class="developer-image"
+          >
+
+          <div>
+            <h2 class="developer-name">Luigi Bianchi</h2>
+            <p class="developer-role">UI/UX Designer</p>
+            <p class="developer-text">
+              Luigi works on the page design, colors, spacing, and user experience.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-  {% endfor %}
-</div>
+
 {% endblock %}
