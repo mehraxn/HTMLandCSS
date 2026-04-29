@@ -1,514 +1,237 @@
-# README: Flask `app.py` Explanation Only
+# Flask Social Network — app.py Explained
 
-This README explains **only the Flask Python file**, `app.py`.
-
-It does not explain the HTML files or the CSS file. It only explains what the Flask app does in Python.
+A complete line-by-line breakdown of the Flask back-end for the social network lab.
 
 ---
 
-# Purpose of `app.py`
-
-`app.py` is the main Python file of the Flask application.
-
-Its job is to:
-
-1. Create the Flask app.
-2. Store the data used by the app.
-3. Create the website routes.
-4. Send data from Python to the correct page.
-5. Start the Flask development server.
-
----
-
-# Line-by-line explanation
-
-## Line 1
+## 1. Imports
 
 ```python
 from flask import Flask, render_template
 ```
 
-This line imports two tools from Flask.
-
-`Flask` is used to create the web application.
-
-`render_template` is used to return an HTML template from a Flask route.
-
-So this line means:
-
-> Get the Flask tools that this app needs.
+| Symbol | What it does |
+|---|---|
+| `Flask` | The class that creates and runs the web application |
+| `render_template` | Loads an HTML file from the `templates/` folder and fills in Jinja variables |
 
 ---
 
-## Line 3
+## 2. Creating the Application Object
 
 ```python
 app = Flask(__name__)
 ```
 
-This line creates the Flask application object.
+- `Flask(__name__)` creates the application instance.
+- `__name__` is a built-in Python variable that holds the name of the current module (`"__main__"` when run directly).
+- Flask uses it to locate the `templates/` and `static/` folders **relative to this file**.
 
-`app` is the name of the Flask application.
-
-`Flask(__name__)` tells Flask to create an app based on this Python file.
-
-`__name__` helps Flask know where the project is located.
-
-So this line means:
-
-> Create the Flask app.
+> ⚠️ **Important**: This line must come before any routes are defined.
 
 ---
 
-## Line 5
-
-```python
-# The data below is sent from Flask to the HTML pages.
-```
-
-This is a Python comment.
-
-It does not run.
-
-It only explains that the data written below will be sent from Flask to the pages.
-
----
-
-## Line 6
-
-```python
-# Each dictionary is one post.
-```
-
-This is another comment.
-
-It explains that every dictionary inside the `posts` list represents one post.
-
----
-
-## Line 7
+## 3. The Posts Data Structure
 
 ```python
 posts = [
-```
-
-This line creates a list called `posts`.
-
-This list stores the data for the posts shown in the app.
-
-The `[` means the list starts here.
-
----
-
-## Lines 8–14
-
-```python
-    {
-        "username": "luigi",
-        "publication_date": "2 days ago",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique lobortis molestie. Donec laoreet iaculis nibh sed viverra. Nunc condimentum tincidunt mollis. Curabitur gravida aliquam urna, ac vulputate felis condimentum at. Sed sapien lectus, aliquam ac ornare sed, dapibus pulvinar ligula.",
-        "profile_image": "/static/images/user.jpg",
-        "post_image": "/static/images/img1.jpg",
-    },
-```
-
-This is the first post dictionary.
-
-A dictionary stores data as key-value pairs.
-
-For example:
-
-```python
-"username": "luigi"
-```
-
-means the key is `username` and the value is `luigi`.
-
-This first post has:
-
-* username: `luigi`
-* publication date: `2 days ago`
-* post text
-* profile image path
-* post image path
-
-The comma after the dictionary means more posts will come after it.
-
----
-
-## Lines 15–21
-
-```python
-    {
-        "username": "alberto",
-        "publication_date": "4 days ago",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique lobortis molestie. Donec laoreet iaculis nibh sed viverra. Nunc condimentum tincidunt mollis. Curabitur gravida aliquam urna, ac vulputate felis condimentum at. Sed sapien lectus, aliquam ac ornare sed, dapibus pulvinar ligula.",
-        "profile_image": "/static/images/user.jpg",
-        "post_image": "/static/images/img2.jpg",
-    },
-```
-
-This is the second post dictionary.
-
-It has the same kind of information as the first post, but with different values.
-
-This post belongs to `alberto`.
-
-Its post image is:
-
-```python
-"/static/images/img2.jpg"
-```
-
----
-
-## Lines 22–28
-
-```python
-    {
-        "username": "juan",
-        "publication_date": "1 week ago",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique lobortis molestie. Donec laoreet iaculis nibh sed viverra. Nunc condimentum tincidunt mollis.",
-        "profile_image": "/static/images/user.jpg",
-        "post_image": None,
-    },
-```
-
-This is the third post dictionary.
-
-This post belongs to `juan`.
-
-The important part is:
-
-```python
-"post_image": None
-```
-
-`None` means there is no value.
-
-So this post does not have a post image.
-
----
-
-## Line 29
-
-```python
+    {'id': 0, 'usrname': '@juan', 'usrimg': 'user.jpg', 'img': 'img1.jpg',
+     'date': '1 day ago', 'post': 'Lorem ipsum ...'},
+    {'id': 1, 'usrname': '@luigi', 'usrimg': 'user.jpg', 'img': 'img2.jpg',
+     'date': '4 days ago', 'post': 'Lorem ipsum ...'},
+    {'id': 2, 'usrname': '@alberto', 'usrimg': 'user.jpg', 'img': 'img3.jpg',
+     'date': '2 weeks ago', 'post': 'Lorem ipsum ...'}
 ]
 ```
 
-This closes the `posts` list.
+- `posts` is a Python **list** of **dictionaries** — the in-memory "database" for this app.
+- Each dictionary represents one post with these keys:
 
-So the `posts` list contains three post dictionaries.
+| Key | Type | Description |
+|---|---|---|
+| `id` | `int` | Unique numeric identifier (used in the URL) |
+| `usrname` | `str` | The author's username |
+| `usrimg` | `str` | Filename of the profile picture in `static/images/` |
+| `img` | `str` | Filename of the post image in `static/images/` |
+| `date` | `str` | Human-readable publication date |
+| `post` | `str` | The body text of the post |
 
----
-
-## Line 31
-
-```python
-# Each dictionary is one developer shown on the about page.
-```
-
-This is a comment.
-
-It explains that the next list stores developer information.
+> ⚠️ **Important**: The `id` values match the **list index** (0, 1, 2). This is relied upon in the `single_post` route — see Section 6.
 
 ---
 
-## Line 32
+## 4. The Homepage Route
 
 ```python
-developers = [
+@app.route('/')
+def home():
+    return render_template('home.html', posts=posts)
 ```
 
-This line creates a list called `developers`.
+### How routes work
 
-This list stores information about the developers shown in the app.
+- `@app.route('/')` is a **decorator** — it tells Flask: *"when a browser requests the URL `/`, call the function below it"*.
+- `def home():` is the **view function** — the logic that runs for that URL.
+- `render_template('home.html', posts=posts)` does two things:
+  1. Loads `templates/home.html`
+  2. Passes the `posts` list into the template as a Jinja variable also called `posts`
+
+Inside `home.html` you can then iterate with:
+```jinja2
+{% for post in posts %}
+  <p>{{ post.usrname }}</p>
+{% endfor %}
+```
 
 ---
 
-## Lines 33–38
+## 5. The About Page Route
 
 ```python
-    {
-        "name": "Luigi Verdi",
-        "role": "Front-end Developer",
-        "bio": "Passionate about design and usability, Luigi works on the user interface and the visual experience of the application.",
-        "photo": "/static/images/img1.jpg",
-    },
-```
-
-This is the first developer dictionary.
-
-It stores:
-
-* developer name
-* developer role
-* short biography
-* photo path
-
-The developer is `Luigi Verdi`.
-
-His role is `Front-end Developer`.
-
----
-
-## Lines 39–44
-
-```python
-    {
-        "name": "Alberto Rossi",
-        "role": "Back-end Developer",
-        "bio": "Skilled in Python and Flask, Alberto manages the server-side logic and the data architecture of the project.",
-        "photo": "/static/images/img2.jpg",
-    },
-```
-
-This is the second developer dictionary.
-
-The developer is `Alberto Rossi`.
-
-His role is `Back-end Developer`.
-
----
-
-## Line 45
-
-```python
-]
-```
-
-This closes the `developers` list.
-
-So the `developers` list contains two developer dictionaries.
-
----
-
-## Line 48
-
-```python
-@app.route("/")
-```
-
-This is a Flask route decorator.
-
-A route connects a browser URL to a Python function.
-
-The route `/` means the home route.
-
-So when the browser visits:
-
-```text
-http://127.0.0.1:5000/
-```
-
-Flask will run the function under this route.
-
----
-
-## Line 49
-
-```python
-def index():
-```
-
-This defines a function called `index`.
-
-This function belongs to the `/` route.
-
-So when the user opens the home route, Flask runs `index()`.
-
----
-
-## Line 50
-
-```python
-    return render_template("index.html", posts=posts, active_page="home")
-```
-
-This line returns the response for the home route.
-
-`render_template("index.html")` tells Flask to render the `index.html` template.
-
-`posts=posts` sends the Python `posts` list to that template.
-
-The first `posts` is the name the template will use.
-
-The second `posts` is the Python variable created earlier.
-
-`active_page="home"` sends the value `home` to the template.
-
-This is usually used to know which page is currently active.
-
-So this line means:
-
-> Show the home page and send it the posts data.
-
----
-
-## Line 53
-
-```python
-@app.route("/about")
-```
-
-This is another Flask route decorator.
-
-The route is `/about`.
-
-So when the browser visits:
-
-```text
-http://127.0.0.1:5000/about
-```
-
-Flask will run the function under this route.
-
----
-
-## Line 54
-
-```python
+@app.route('/about')
 def about():
+    p_developers = [
+        {'id': 1234, 'name': 'Juan Pablo Sáenz', 'devimg': 'user.jpg',
+            'quote': 'A well-known quote...', 'quoteAuthor': 'First quote author'},
+        {'id': 5678, 'name': 'Luigi De Russis', 'devimg': 'user.jpg',
+            'quote': 'A well-known quote...', 'quoteAuthor': 'Second quote author'},
+        {'id': 9012, 'name': 'Alberto Monge Roffarello', 'devimg': 'user.jpg',
+            'quote': 'A well-known quote...', 'quoteAuthor': 'Third quote author'}
+    ]
+    return render_template('about.html', developers=p_developers)
 ```
 
-This defines a function called `about`.
-
-This function belongs to the `/about` route.
-
-So when the user opens `/about`, Flask runs `about()`.
+- URL `/about` maps to the `about()` function.
+- `p_developers` is a **local** list of dicts — it's defined inside the function because it only belongs to this page.
+- Each developer dict has: `id`, `name`, `devimg`, `quote`, `quoteAuthor`.
+- The list is passed to `about.html` as the variable `developers`.
 
 ---
 
-## Line 55
+## 6. The Dynamic Post Route ⭐ (Lab 5 Core Feature)
 
 ```python
-    return render_template("about.html", developers=developers, active_page="about")
+@app.route('/posts/<int:id>')
+def single_post(id):
+    post = posts[id]
+    return render_template('post.html', post=post)
 ```
 
-This line returns the response for the about route.
+This is the most important new concept in Lab 5.
 
-`render_template("about.html")` tells Flask to render the `about.html` template.
+### Breaking it down
 
-`developers=developers` sends the Python `developers` list to that template.
+```
+/posts/<int:id>
+       ^^^^^^^^
+       Dynamic segment — a variable part of the URL
+```
 
-The first `developers` is the name the template will use.
+| Part | Meaning |
+|---|---|
+| `/posts/` | Fixed, literal part of the URL |
+| `<int:id>` | A **URL variable** — Flask captures whatever integer is here |
+| `int:` | A **converter** — Flask automatically converts the captured string to a Python `int` |
 
-The second `developers` is the Python variable created earlier.
+- When a user visits `/posts/0`, Flask calls `single_post(id=0)`.
+- When a user visits `/posts/2`, Flask calls `single_post(id=2)`.
+- `post = posts[id]` retrieves the dictionary at index `id` from the global `posts` list.
+- Only the matching post is passed to the template.
 
-`active_page="about"` sends the value `about` to the template.
+### URL converters available in Flask
 
-So this line means:
+| Converter | Type |
+|---|---|
+| `<int:x>` | Integer |
+| `<float:x>` | Float |
+| `<string:x>` | String (default) |
+| `<path:x>` | String including slashes |
 
-> Show the about page and send it the developers data.
+> ⚠️ **Limitation**: If someone visits `/posts/99` and there is no index 99, Python raises an `IndexError`. A production app should add error handling:
+> ```python
+> from flask import abort
+> if id >= len(posts):
+>     abort(404)
+> ```
 
 ---
 
-## Line 58
+## 7. Running the Application
 
 ```python
 if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=3000, debug=True)
 ```
 
-This line checks whether this file is being run directly.
+| Part | Meaning |
+|---|---|
+| `if __name__ == "__main__"` | Only run the server if this file is executed directly (not imported) |
+| `host='0.0.0.0'` | Listen on all network interfaces (makes it reachable on your local network) |
+| `port=3000` | Serve the app on port 3000 — visit `http://localhost:3000` |
+| `debug=True` | Enables the debugger and **auto-reloads** the server when you save a file |
 
-When you run this command:
-
-```bash
-python app.py
-```
-
-then `__name__` becomes `"__main__"`.
-
-So the condition becomes true.
-
-This is used to make sure the server starts only when this file is run directly.
+> ⚠️ **Important**: Never use `debug=True` in a production deployment — it exposes internals.
 
 ---
 
-## Line 59
+## 8. Folder Structure Required
 
-```python
-    app.run(debug=True)
+```
+project/
+├── app.py                     ← this file
+├── templates/
+│   ├── base.html              ← base template (navbar + aside)
+│   ├── home.html              ← extends base, shows post feed
+│   ├── post.html              ← extends base, shows one post
+│   └── about.html             ← extends base, shows developers
+└── static/
+    ├── css/
+    │   └── style.css
+    └── images/
+        ├── user.jpg
+        ├── img1.jpg
+        ├── img2.jpg
+        └── img3.jpg
 ```
 
-This line starts the Flask development server.
-
-`app.run()` runs the app.
-
-`debug=True` turns on debug mode.
-
-Debug mode is useful while developing because it shows better error messages and reloads the app after changes.
-
-Important:
-
-`debug=True` is good for learning and development, but it should not be used for a real public website.
+Flask automatically looks for templates in `templates/` and static files in `static/`.
 
 ---
 
-# What this Flask app contains
+## 9. How the Pieces Connect — Request Flow
 
-This Flask file creates two routes:
-
-```text
-/       → home route
-/about  → about route
 ```
-
-It also creates two Python lists:
-
-```python
-posts
-```
-
-and:
-
-```python
-developers
-```
-
-The home route sends `posts` data.
-
-The about route sends `developers` data.
-
----
-
-# Simple Flask flow
-
-When the user opens the home route:
-
-```text
-Browser asks for /
-Flask runs index()
-Flask sends posts data
-Browser receives the response
-```
-
-When the user opens the about route:
-
-```text
-Browser asks for /about
-Flask runs about()
-Flask sends developers data
-Browser receives the response
+Browser visits /posts/1
+        │
+        ▼
+Flask matches @app.route('/posts/<int:id>')
+        │
+        ▼
+single_post(id=1) is called
+        │
+        ▼
+post = posts[1]  →  {'id':1, 'usrname':'@luigi', ...}
+        │
+        ▼
+render_template('post.html', post=post)
+        │
+        ▼
+Jinja fills {{ post.usrname }}, {{ post.img }}, etc.
+        │
+        ▼
+Finished HTML is sent back to the browser
 ```
 
 ---
 
-# Final summary
+## 10. Key Flask Concepts Summary
 
-`app.py` is the Python controller of the project.
-
-It controls:
-
-* the Flask app creation
-* the data
-* the routes
-* the server start
-
-It does not control the visual design directly. The visual design is handled outside this Python file.
-
-This file mainly answers three questions:
-
-1. What data does the app have?
-2. What URLs does the app have?
-3. What should Flask send back when each URL is opened?
+| Concept | Syntax | Purpose |
+|---|---|---|
+| App creation | `Flask(__name__)` | Creates the app |
+| Static route | `@app.route('/about')` | Fixed URL |
+| Dynamic route | `@app.route('/posts/<int:id>')` | URL with variable |
+| Render template | `render_template('file.html', key=value)` | Serve HTML with data |
+| Template folder | `templates/` | Where Flask looks for HTML |
+| Static folder | `static/` | Where CSS, images, JS live |
+| Debug mode | `debug=True` | Auto-reload + error pages |
