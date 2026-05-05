@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="MEHRAN">
+    <title>Featured Post | Campus Stories</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><span class="brand-dot"></span>Campus Stories</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="explore.html">Explore</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="post.html">Post</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <article class="post-shell">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="explore.html">Study Tips</a></li>
+                    <li class="breadcrumb-item active">Library corner</li>
+                </ol>
+            </nav>
+
+            <img src="static/images/quiet-study-corner.png" class="post-header-img mb-4" alt="Campus study corner">
+
+            <div class="px-lg-4">
+                <span class="category-badge">Study Tips</span>
+                <h1 class="display-4 fw-bold lh-1 mb-3">My quiet study corner near the library</h1>
+                <p class="lead text-muted">A student story about finding a small place on campus that made midterm week easier.</p>
+
+                <div class="d-flex align-items-center gap-3 my-4">
+                    <a href="profile.html" class="avatar-sm text-decoration-none">A</a>
+                    <div>
+                        <h2 class="h6 mb-0"><a href="profile.html" class="text-dark text-decoration-none">Alex Johnson</a></h2>
+                        <small class="text-muted">Computer Science student • Posted 2 days ago • 5 min read</small>
+                    </div>
+                </div>
+
+                <div class="post-body fs-5">
+                    <p>During midterm week, the library was full and every table near the entrance was noisy. I walked to the back side of the building and found a small balcony with only two seats and a view of the courtyard.</p>
+                    <p>It was not completely silent, but that was actually better for me. I could hear people walking outside, the fountain, and some soft campus noise. It made the place feel alive without becoming distracting.</p>
+                    <div class="quote-box my-4">
+                        “The best study place is not always the quietest place. It is the place where your brain understands that it is time to work.”
+                    </div>
+                    <p>I now go there before web application labs to review my Flask notes, Bootstrap layout, and CSS classes. Small routines like this can make a big difference for students.</p>
+                </div>
+
+                <div class="action-bar my-5">
+                    <span class="action-pill"><i class="bi bi-heart"></i> 124 likes</span>
+                    <span class="action-pill"><i class="bi bi-chat-left"></i> 12 comments</span>
+                    <span class="action-pill"><i class="bi bi-share"></i> Share</span>
+                    <span class="action-pill"><i class="bi bi-bookmark"></i> Save</span>
+                </div>
+
+                <section>
+                    <h2 class="h4 fw-bold mb-3">Comments</h2>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-white"><i class="bi bi-person-circle"></i></span>
+                        <textarea class="form-control" placeholder="Write a comment..." rows="2"></textarea>
+                        <button class="btn btn-main" type="button">Post</button>
+                    </div>
+                    <div class="comment-card mb-3">
+                        <div class="d-flex gap-3">
+                            <span class="avatar-sm">J</span>
+                            <div>
+                                <h3 class="h6 mb-1">Jane Doe <small class="text-muted">1 hour ago</small></h3>
+                                <p class="mb-0 text-muted">I know this place! It is perfect in the morning before classes start.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-card">
+                        <div class="d-flex gap-3">
+                            <span class="avatar-sm">M</span>
+                            <div>
+                                <h3 class="h6 mb-1">Maya Chen <small class="text-muted">Yesterday</small></h3>
+                                <p class="mb-0 text-muted">This is exactly the kind of small campus story I like reading.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </article>
+    </main>
+
+    <footer class="footer-box text-center">
+        <div class="container">
+            <p class="mb-0">Post page | Static visual design for the midterm</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
