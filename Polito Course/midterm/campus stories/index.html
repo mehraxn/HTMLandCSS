@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="MEHRAN">
+    <title>Campus Stories | Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><span class="brand-dot"></span>Campus Stories</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="explore.html">Explore</a></li>
+                    <li class="nav-item"><a class="nav-link" href="post.html">Post</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                    <li class="nav-item"><a class="btn btn-main btn-sm" href="explore.html">Find stories</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero section -->
+    <header class="container text-center">
+        <div class="hero-panel">
+            <span class="hero-kicker"><i class="bi bi-stars"></i> Student stories from around campus</span>
+            <h1 class="hero-title">50 Campus Stories, one student community.</h1>
+            <p class="hero-text">A clean, card-based social space where students share study tips, projects, events, favorite places, and small experiences from university life.</p>
+            <div class="hero-actions d-flex flex-wrap justify-content-center gap-3">
+                <a href="explore.html" class="btn btn-main">Explore stories</a>
+                <a href="post.html" class="btn btn-soft">Read featured post</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Small information cards -->
+    <section class="container my-5">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="info-card">
+                    <div class="info-number">50+</div>
+                    <h5 class="fw-bold">Student moments</h5>
+                    <p class="text-muted mb-0">Short stories from classes, clubs, projects, events, and daily campus life.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card">
+                    <div class="info-number">6</div>
+                    <h5 class="fw-bold">Simple categories</h5>
+                    <p class="text-muted mb-0">A filter-style section helps users quickly browse the type of story they want.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card">
+                    <div class="info-number">100%</div>
+                    <h5 class="fw-bold">Responsive layout</h5>
+                    <p class="text-muted mb-0">The Bootstrap grid keeps the cards clean on desktop, tablet, and mobile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main story cards -->
+    <main class="container my-5">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+            <div>
+                <h2 class="section-title mb-2">Explore student stories</h2>
+                <p class="section-text mb-0">Inspired by a clean story collection page, this section uses rounded cards, category chips, and readable spacing.</p>
+            </div>
+            <a href="explore.html" class="btn btn-soft">View all <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        <div class="filter-wrap d-flex flex-wrap align-items-center mb-4">
+            <a href="#" class="filter-btn active">All</a>
+            <a href="#" class="filter-btn">Study Tips</a>
+            <a href="#" class="filter-btn">Projects</a>
+            <a href="#" class="filter-btn">Events</a>
+            <a href="#" class="filter-btn">Clubs</a>
+            <a href="#" class="filter-btn">Campus Places</a>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <article class="card story-card">
+                    <img src="static/images/quiet-study-corner.png" class="story-photo" alt="Quiet study corner">
+                    <div class="card-body p-4">
+                        <span class="category-badge">Study Tips</span>
+                        <h3 class="h5 card-title fw-bold">My quiet study corner near the library</h3>
+                        <p class="text-muted">I found a calm place for midterms where the background noise actually helps me focus.</p>
+                        <div class="story-meta">
+                            <span><span class="avatar-sm me-2">A</span>Alex</span>
+                            <a href="post.html" class="text-decoration-none fw-bold">Read story</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <article class="card story-card">
+                    <img src="static/images/library-vibes.png" class="story-photo" alt="Students working on a small project">
+                    <div class="card-body p-4">
+                        <span class="category-badge category-green">Projects</span>
+                        <h3 class="h5 card-title fw-bold">Our team built a small Flask app</h3>
+                        <p class="text-muted">We started with simple routes, templates, Bootstrap cards, and one dynamic post page.</p>
+                        <div class="story-meta">
+                            <span><span class="avatar-sm me-2">M</span>Maya</span>
+                            <a href="post.html" class="text-decoration-none fw-bold">Read story</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <article class="card story-card">
+                    <img src="static/images/tech-fest-2024.png" class="story-photo" alt="Student coding night event">
+                    <div class="card-body p-4">
+                        <span class="category-badge category-yellow">Events</span>
+                        <h3 class="h5 card-title fw-bold">Student coding night was chaotic</h3>
+                        <p class="text-muted">Three hours of debugging, pizza, and finally understanding why my CSS was not loading.</p>
+                        <div class="story-meta">
+                            <span><span class="avatar-sm me-2">R</span>Rohan</span>
+                            <a href="post.html" class="text-decoration-none fw-bold">Read story</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <article class="card story-card">
+                    <img src="static/images/campus-hero.png" class="story-photo" alt="Students on campus">
+                    <div class="card-body p-4">
+                        <span class="category-badge category-red">Campus Life</span>
+                        <h3 class="h5 card-title fw-bold">The coffee machine saved my morning</h3>
+                        <p class="text-muted">A small campus moment became the reason I met two classmates from my web lab.</p>
+                        <div class="story-meta">
+                            <span><span class="avatar-sm me-2">S</span>Sara</span>
+                            <a href="post.html" class="text-decoration-none fw-bold">Read story</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <article class="card story-card">
+                    <img src="static/images/all-nighter-stories.png" class="story-photo" alt="Late night study session">
+                    <div class="card-body p-4">
+                        <span class="category-badge">Bootstrap</span>
+                        <h3 class="h5 card-title fw-bold">How the grid fixed my layout</h3>
+                        <p class="text-muted">I used rows and columns to make my cards stack nicely on mobile screens.</p>
+                        <div class="story-meta">
+                            <span><span class="avatar-sm me-2">L</span>Lina</span>
+                            <a href="post.html" class="text-decoration-none fw-bold">Read story</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <article class="card story-card">
+                    <img src="static/images/first-day-vibes.png" class="story-photo" alt="Friends walking on campus">
+                    <div class="card-body p-4">
+                        <span class="category-badge category-green">Clubs</span>
+                        <h3 class="h5 card-title fw-bold">Joining the photo club changed my week</h3>
+                        <p class="text-muted">I discovered campus details I had passed every day without noticing before.</p>
+                        <div class="story-meta">
+                            <span><span class="avatar-sm me-2">N</span>Noah</span>
+                            <a href="post.html" class="text-decoration-none fw-bold">Read story</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <section class="container my-5">
+        <div class="info-card text-center p-5">
+            <h2 class="section-title">Share your own campus story.</h2>
+            <p class="section-text mx-auto">This button is only a visual idea for the midterm, but it shows how a future post form could be added.</p>
+            <a href="explore.html" class="btn btn-main mt-2">Start exploring</a>
+        </div>
+    </section>
+
+    <footer class="footer-box text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Campus Stories | Midterm HTML, CSS, and Bootstrap redesign</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
