@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}EchoNet – About us{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5 px-3 px-md-4" id="about-wrapper">
+
+  <div class="mb-5">
+    <h1 class="about-title mb-2">About us</h1>
+    <p class="about-subtitle text-muted">
+      We are a small team of developers passionate about building tools that help people connect and share ideas.
+    </p>
+    <a href="{{ url_for('index') }}" class="btn btn-outline-primary mt-2">
+      <i class="bi bi-arrow-left me-1"></i> Back to feed
+    </a>
+  </div>
+
+  <div class="row g-4">
+    {% for dev in developers %}
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="dev-card p-4 text-center h-100">
+        <img src="{{ dev.photo }}" alt="Photo of {{ dev.name }}" class="dev-avatar mb-3">
+        <h2 class="dev-name">{{ dev.name }}</h2>
+        <span class="dev-role mb-3">{{ dev.role }}</span>
+        <p class="dev-bio text-muted mt-3 mb-0">{{ dev.bio }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
