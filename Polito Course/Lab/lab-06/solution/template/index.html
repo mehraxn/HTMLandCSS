@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}EchoNet – Home{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-3 px-md-4" id="feed-wrapper">
+  <div class="row g-4">
+
+    <aside class="col-12 col-md-3 col-lg-2" id="sidebar">
+      <nav class="sidebar-nav d-flex flex-md-column gap-2">
+        <a href="#" class="sidebar-link active">Today</a>
+        <a href="#" class="sidebar-link">This week</a>
+        <a href="#" class="sidebar-link">This month</a>
+      </nav>
+    </aside>
+
+    <main class="col-12 col-md-9 col-lg-10" id="feed">
+
+      {% for post in posts %}
+      <article class="post-card mb-4">
+        <div class="row g-0 align-items-start">
+
+          {% if post.post_image %}
+          <div class="col-12 col-sm-4 col-lg-3">
+            <img src="{{ post.post_image }}" alt="Post by @{{ post.username }}" class="post-image img-fluid">
+          </div>
+
+          <div class="col-12 col-sm-8 col-lg-9 ps-sm-3 pt-3 pt-sm-0">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <img src="{{ post.profile_image }}" alt="Profile of @{{ post.username }}" class="avatar">
+                <span class="author-name">@{{ post.username }}</span>
+              </div>
+              <span class="post-date text-muted small">{{ post.publication_date }}</span>
+            </div>
+
+            <p class="post-text mb-0">{{ post.text }}</p>
+          </div>
+          {% else %}
+          <div class="col-12 ps-sm-3 pt-3 pt-sm-0">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <img src="{{ post.profile_image }}" alt="Profile of @{{ post.username }}" class="avatar">
+                <span class="author-name">@{{ post.username }}</span>
+              </div>
+              <span class="post-date text-muted small">{{ post.publication_date }}</span>
+            </div>
+
+            <p class="post-text mb-0">{{ post.text }}</p>
+          </div>
+          {% endif %}
+
+        </div>
+      </article>
+
+      {% if not loop.last %}
+      <hr class="post-divider">
+      {% endif %}
+
+      {% endfor %}
+
+    </main>
+
+  </div>
+</div>
+
+<!-- Floating Action Button — opens the modal -->
+<button
+  class="fab"
+  aria-label="New post"
+  title="New post"
+  data-bs-toggle="modal"
+  data-bs-target="#newPostModal"
+>
+  <i class="bi bi-plus-lg"></i>
+</button>
+
+
+<!-- =====================================================================
+     NEW POST MODAL
+     ===================================================================== -->
+<div
+  class="modal fade"
+  id="newPostModal"
+  tabindex="-1"
+  aria-labelledby="newPostModalLabel"
+  aria-hidden="true"
+  {# Re-open the modal automatically when there are validation errors #}
+  {% if errors %}data-reopen="true"{% endif %}
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="newPostModalLabel">Create a new post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal body — the form -->
+      <div class="modal-body">
+
+        {# ---- Validation error banner ---- #}
+        {% if errors %}
+        <div class="alert alert-danger alert-dismissible fade show mb-3 py-2" role="alert">
+          <ul class="mb-0 ps-3">
+            {% for error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+
+        <!--
+          enctype="multipart/form-data" is required for file uploads.
+          action="" submits to the current URL (the "/" route).
+        -->
+        <form action="{{ url_for('index') }}" method="POST" enctype="multipart/form-data" novalidate id="newPostForm">
+
+          <!-- 1. Username dropdown -->
+          <div class="mb-3">
+            <label for="username" class="form-label fw-semibold">Username</label>
+            <select
+              class="form-select"
+              id="username"
+              name="username"
+              required
+            >
+              <option value="" disabled {% if not form_data.username %}selected{% endif %}>Select a username…</option>
+              {% for uname in usernames %}
+              <option
+                value="{{ uname }}"
+                {% if form_data.username == uname %}selected{% endif %}
+              >
+                @{{ uname }}
+              </option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">Please select a username.</div>
+          </div>
+
+          <!-- 2. Post text (required, 30–200 chars) -->
+          <div class="mb-3">
+            <label for="text" class="form-label fw-semibold">What's on your mind?</label>
+            <textarea
+              class="form-control"
+              id="text"
+              name="text"
+              rows="4"
+              placeholder="Enter text for your post"
+              required
+              minlength="30"
+              maxlength="200"
+            >{{ form_data.text or '' }}</textarea>
+            <div class="d-flex justify-content-between mt-1">
+              <div class="invalid-feedback d-block text-danger small" id="text-error"></div>
+              <small class="text-muted ms-auto" id="char-counter">
+                <span id="char-count">{{ (form_data.text or '')|length }}</span>/200
+              </small>
+            </div>
+          </div>
+
+          <!-- 3. Post image (optional) -->
+          <div class="mb-3">
+            <label for="image" class="form-label fw-semibold">
+              Add an image
+              <span class="text-muted fw-normal">(optional)</span>
+            </label>
+            <input
+              class="form-control"
+              type="file"
+              id="image"
+              name="image"
+              accept="image/png, image/jpeg, image/gif, image/webp"
+            >
+            <div class="form-text">Accepted formats: PNG, JPG, GIF, WEBP.</div>
+          </div>
+
+          <!-- 4. Publication date (required) -->
+          <div class="mb-3">
+            <label for="date" class="form-label fw-semibold">Select a date</label>
+            <input
+              class="form-control"
+              type="date"
+              id="date"
+              name="date"
+              required
+              value="{{ form_data.date or '' }}"
+            >
+            <div class="invalid-feedback">Please select a publication date.</div>
+          </div>
+
+          <!-- Modal footer actions (inside the form so the submit button works) -->
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Create Post</button>
+          </div>
+
+        </form>
+      </div><!-- /.modal-body -->
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /#newPostModal -->
+
+
+<!-- =====================================================================
+     SCRIPTS
+     ===================================================================== -->
+<script>
+  // ---- Re-open modal automatically when Flask returns validation errors ----
+  const modalEl = document.getElementById('newPostModal');
+  if (modalEl && modalEl.dataset.reopen === 'true') {
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+  }
+
+  // ---- Live character counter for the textarea ----
+  const textarea  = document.getElementById('text');
+  const charCount = document.getElementById('char-count');
+  const textError = document.getElementById('text-error');
+
+  if (textarea) {
+    textarea.addEventListener('input', () => {
+      const len = textarea.value.length;
+      charCount.textContent = len;
+
+      // Visual feedback: red when outside valid range
+      if (len < 30 || len > 200) {
+        charCount.classList.add('text-danger');
+        charCount.classList.remove('text-success');
+      } else {
+        charCount.classList.add('text-success');
+        charCount.classList.remove('text-danger');
+      }
+    });
+  }
+
+  // ---- Client-side validation before submission ----
+  const form = document.getElementById('newPostForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      let valid = true;
+
+      // Bootstrap built-in validation styles
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+        valid = false;
+      }
+
+      // Extra text-length check (minlength/maxlength are already in HTML,
+      // but this gives a friendlier message in the custom error div)
+      const len = textarea.value.trim().length;
+      if (len < 30) {
+        e.preventDefault();
+        textError.textContent = `Too short (${len} chars). Minimum is 30 characters.`;
+        textError.style.display = 'block';
+        valid = false;
+      } else if (len > 200) {
+        e.preventDefault();
+        textError.textContent = `Too long (${len} chars). Maximum is 200 characters.`;
+        textError.style.display = 'block';
+        valid = false;
+      } else {
+        textError.textContent = '';
+        textError.style.display = 'none';
+      }
+
+      form.classList.add('was-validated');
+    });
+  }
+</script>
+{% endblock %}
