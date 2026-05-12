@@ -71,11 +71,10 @@
 
                 <section>
                     <h2 class="h4 fw-bold mb-3">Comments</h2>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text bg-white"><i class="bi bi-person-circle"></i></span>
-                        <textarea class="form-control" placeholder="Write a comment..." rows="2"></textarea>
-                        <button class="btn btn-main" type="button">Post</button>
-                    </div>
+                    <form class="input-group comment-form mb-3" action="#" method="post">
+                        <textarea class="form-control" name="comment" placeholder="Write a comment..." rows="2"></textarea>
+                        <button class="btn btn-main" type="submit">Post</button>
+                    </form>
                     <div class="comment-card mb-3">
                         <div class="d-flex gap-3">
                             <span class="avatar-sm">J</span>

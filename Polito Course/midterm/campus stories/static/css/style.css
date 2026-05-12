@@ -361,6 +361,10 @@ a {
     border-radius: 20px;
 }
 
+.comment-form textarea {
+    resize: none;
+}
+
 /* Profile */
 .profile-panel {
     padding: 30px;

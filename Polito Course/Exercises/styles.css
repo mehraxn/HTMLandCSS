@@ -1,0 +1,55 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* General box style */
+.box {
+  width: 150px;
+  height: 80px;
+  margin: 20px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+/* STATIC (default) */
+.static {
+  position: static;
+  background-color: gray;
+}
+
+/* RELATIVE */
+.relative {
+  position: relative;
+  background-color: steelblue;
+  top: 20px;
+  /* Moves relative to its normal position */
+  left: 20px;
+}
+
+/* ABSOLUTE */
+.absolute {
+  position: absolute;
+  background-color: crimson;
+  margin: 0px;
+  top: 5px;
+  right: 10px;
+  width: 100px;
+  height: 50px;
+}
+
+/* FIXED */
+.fixed {
+  position: fixed;
+  background-color: green;
+  bottom: 50px;
+  right: 50px;
+}
+
+/* Extra space for scrolling */
+.spacer {
+  height: 150vh;
+  padding: 20px;
+}
