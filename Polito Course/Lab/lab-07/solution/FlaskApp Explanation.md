@@ -365,14 +365,26 @@ It is a short way to create a new list from an existing list.
 return render_template('home.html', posts=posts, users=users)
 ```
 
-This sends two variables to the HTML template:
+This sends two values from Python to the `home.html` template.
 
-| Python variable | Template name | Purpose                                   |
-| --------------- | ------------- | ----------------------------------------- |
-| `posts`         | `posts`       | Used to display all posts                 |
-| `users`         | `users`       | Used to show usernames in a form dropdown |
+In `render_template()`, the rule is:
 
-Inside `home.html`, the template can use:
+```python
+template_variable_name = Python_variable_value
+```
+
+So the **left side of `=`** is the variable name that will be available inside the HTML/Jinja template.
+
+The **right side of `=`** is the Python variable that already exists inside the Flask function.
+
+In this specific code, both sides have the same names, so it can look confusing:
+
+| Code part | Left side: template variable name | Right side: Python variable value | Purpose |
+|---|---|---|---|
+| `posts=posts` | `posts` | `posts` | Sends the Python `posts` list to the template under the name `posts` |
+| `users=users` | `users` | `users` | Sends the Python `users` list to the template under the name `users` |
+
+Inside `home.html`, the template can use the names from the left side:
 
 ```jinja2
 {{ posts }}
