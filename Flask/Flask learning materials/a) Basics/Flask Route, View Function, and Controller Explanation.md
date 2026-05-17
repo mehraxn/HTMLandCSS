@@ -25,7 +25,7 @@ In this example, Flask connects the URL `home` to the Python function `home()`.
 So when the user opens this address in the browser
 
 ```text
-http127.0.0.15000home
+http://127.0.0.1:5000/home
 ```
 
 Flask runs this function
