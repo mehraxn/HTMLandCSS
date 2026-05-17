@@ -81,7 +81,7 @@ Example
 ```python
 @app.route(home)
 def home()
-    return Hello, this is the home page
+    return 'Hello, this is the home page'
 ```
 
 Here, the view function is
